@@ -16,29 +16,24 @@ export default function Room() {
         setHeight(window.innerHeight);
         // console log path name divided by '/'
         getMemo(window.location.pathname.split('/')[2])
-        .then(
-            (data)=>{
-                console.log(data);
-                setMemo(data.query);
-            }
-        )
+        .then((data)=>{setMemo(data.query);})
         .catch((err)=>{console.log(err)});
     }, []);
 
     useEffect(() => {
-        memo.forEach((memo)=>{
-            addMemo(memo);
-        }); 
+        memo.forEach((memo)=>{addMemo(memo);}); 
     }, [memo]);
 
     function addMemo(memo){
         let div = document.createElement('div');
         div.style.position = 'absolute';
         div.style.left = memo.x + 'px';
+        if(getTextWidth(memo.text, memo.fontSize + 'px sans-serif') + 24 + memo.x > width-12){
+            div.style.left = width - getTextWidth(memo.text, memo.fontSize + 'px sans-serif') - 36 + 'px';
+        }
         div.style.top = memo.y + 'px';
         div.style.padding = '5px';
-        div.style.fontSize = memo.fontSize + 'px';
-        div.style.fontFamily = 'sans-serif';
+        div.style.font = memo.fontSize + 'px';
         div.style.backgroundColor = memo.color;
         div.style.pointerEvents = 'none';
         div.className = styles.content;
@@ -62,6 +57,7 @@ export default function Room() {
         // create textarea at x,y
         let textarea = document.createElement('textarea');
         textarea.className = styles.content;
+        textarea.id = 'newMemo';
         textarea.style.position = 'absolute';
         textarea.style.left = x + 'px';
         textarea.style.top = y + 'px';
@@ -81,39 +77,45 @@ export default function Room() {
 
         document.body.appendChild(textarea);
         textarea.focus();
-        textarea.addEventListener('blur', function(e) {
-            let text = e.target.value;
-            if(text.length > 0) {
-                let div = document.createElement('div');
-                div.style.position = 'absolute';
-                div.style.left = x + 'px';
-                div.style.top = y + 'px';
-                div.style.padding = '5px';
-                div.style.fontSize = '32px';
-                div.style.fontFamily = 'sans-serif';
-                div.style.backgroundColor = 'white';
-                div.style.pointerEvents = 'none';
-                div.className = styles.content;
-                div.innerHTML = text;
-                document.body.appendChild(div);
-                saveMemo({
-                    url,
-                    text,
-                    x: x,
-                    y: y,
-                    color: 'white',
-                    fontSize: 32,
-                });
+        const newMemo = 
+        {
+            url,
+            text: "",
+            x,
+            y,
+            color: 'white',
+            fontSize: 32,
+        };
+        // save memo when key down enter
+        const listener = function(e) {
+            newMemo.text = e.target.value;
+            if(newMemo.text.length > 0) {
+                addMemo(newMemo);
+                saveMemo(newMemo);
             }
             document.body.removeChild(e.target);
+        };
+        textarea.addEventListener('keydown', function(e) {
+            if(e.keyCode == 13) {
+                e.target.removeEventListener('blur', listener);
+                newMemo.text = e.target.value;
+                if(newMemo.text.length > 0) {
+                    addMemo(newMemo);
+                    saveMemo(newMemo);
+                }
+                document.body.removeChild(e.target);
+            }
         });
+        textarea.addEventListener('blur', listener);
     }
 
     return (
-        <div className={styles.background} onTouchStart={handleTouch}>
+        <div>
             <form onSubmit={(e)=> console.log(e)}>
                 <input type="text" className={styles.search}/>
             </form>
+            <div className={styles.background} onTouchStart={handleTouch}>
+            </div>
         </div>
     )
 }
