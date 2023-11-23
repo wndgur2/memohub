@@ -56,8 +56,8 @@ export default function Room() {
       }
 
     function handleTouch(e) {
-        let x = parseInt(e.changedTouches[0].clientX),
-        y = parseInt(e.changedTouches[0].clientY);
+        let x = parseInt(e.touches[0].clientX),
+        y = parseInt(e.touches[0].clientY);
 
         // create textarea at x,y
         let textarea = document.createElement('textarea');
@@ -110,7 +110,7 @@ export default function Room() {
     }
 
     return (
-        <div className={styles.background} onTouchEnd={handleTouch}>
+        <div className={styles.background} onTouchStart={handleTouch}>
             <form onSubmit={(e)=> console.log(e)}>
                 <input type="text" className={styles.search}/>
             </form>
