@@ -51,8 +51,8 @@ export default function Room() {
       }
 
     function handleTouch(e) {
-        let x = parseInt(e.touches[0].clientX),
-        y = parseInt(e.touches[0].clientY);
+        let x = parseInt(e.clientX),
+        y = parseInt(e.clientY);
 
         // create textarea at x,y
         let textarea = document.createElement('textarea');
