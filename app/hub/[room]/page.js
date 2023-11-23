@@ -114,7 +114,7 @@ export default function Room() {
             <form onSubmit={(e)=> console.log(e)}>
                 <input type="text" className={styles.search}/>
             </form>
-            <div className={styles.background} onTouchStart={handleTouch}>
+            <div className={styles.background} onClick={handleTouch}>
             </div>
         </div>
     )
