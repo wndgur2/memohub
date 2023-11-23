@@ -2,18 +2,47 @@
 
 import { useEffect, useState } from 'react';
 import styles from './page.module.css'
-import { saveMemo } from '@/util/controller';
+import { getMemo, saveMemo } from '@/util/controller';
 
 export default function Room() {
     const [creating, setCreating] = useState(false);
     const [width, setWidth] = useState(0);
     const [height, setHeight] = useState(0);
+    const [url, setUrl] = useState('');
+    const [memo, setMemo] = useState([]);
 
     useEffect(() => {
+        setUrl(window.location.pathname.split('/')[2]);
         setWidth(window.innerWidth);
         setHeight(window.innerHeight);
         // console log path name divided by '/'
+        getMemo(window.location.pathname.split('/')[2])
+        .then(
+            (data)=>{
+                console.log(data);
+                setMemo(data.query);
+                data.query.forEach((memo)=>{
+                    addMemo(memo);
+                }); 
+            }
+        )
+        .catch((err)=>{console.log(err)});
     }, []);
+
+    function addMemo(memo){
+        let div = document.createElement('div');
+        div.style.position = 'absolute';
+        div.style.left = memo.x + 'px';
+        div.style.top = memo.y + 'px';
+        div.style.padding = '5px';
+        div.style.fontSize = memo.fontSize + 'px';
+        div.style.fontFamily = 'sans-serif';
+        div.style.backgroundColor = memo.color;
+        div.style.pointerEvents = 'none';
+        div.className = styles.content;
+        div.innerHTML = memo.text;
+        document.body.appendChild(div);
+    }
 
     function getTextWidth(text, font) {
         // re-use canvas object for better performance
@@ -75,8 +104,8 @@ export default function Room() {
                 // - color: string
                 // - fontSize: int
                 saveMemo({
-                    url: window.location.pathname.split('/')[2],
-                    text: text,
+                    url,
+                    text,
                     x: x,
                     y: y,
                     color: 'white',

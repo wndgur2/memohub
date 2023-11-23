@@ -28,9 +28,10 @@ export async function saveMemo(data) {
     }
 }
 
-export async function getMemo() {
+
+export async function getMemo(id) {
     try {
-        const response = await fetch('api/memo', {
+        const response = await fetch(`/api/memos/${id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
