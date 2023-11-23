@@ -5,7 +5,6 @@ import styles from './page.module.css'
 import { getMemo, saveMemo } from '@/util/controller';
 
 export default function Room() {
-    const [creating, setCreating] = useState(false);
     const [width, setWidth] = useState(0);
     const [height, setHeight] = useState(0);
     const [url, setUrl] = useState('');
@@ -21,13 +20,16 @@ export default function Room() {
             (data)=>{
                 console.log(data);
                 setMemo(data.query);
-                data.query.forEach((memo)=>{
-                    addMemo(memo);
-                }); 
             }
         )
         .catch((err)=>{console.log(err)});
     }, []);
+
+    useEffect(() => {
+        memo.forEach((memo)=>{
+            addMemo(memo);
+        }); 
+    }, [memo]);
 
     function addMemo(memo){
         let div = document.createElement('div');
@@ -56,8 +58,6 @@ export default function Room() {
     function handleTouch(e) {
         let x = parseInt(e.changedTouches[0].clientX),
         y = parseInt(e.changedTouches[0].clientY);
-        if(creating) return;
-        setCreating(true);
 
         // create textarea at x,y
         let textarea = document.createElement('textarea');
@@ -96,13 +96,6 @@ export default function Room() {
                 div.className = styles.content;
                 div.innerHTML = text;
                 document.body.appendChild(div);
-
-                // - url: string
-                // - text: string
-                // - x: int
-                // - y: int
-                // - color: string
-                // - fontSize: int
                 saveMemo({
                     url,
                     text,
@@ -113,7 +106,6 @@ export default function Room() {
                 });
             }
             document.body.removeChild(e.target);
-            setCreating(false);
         });
     }
 
