@@ -36,6 +36,8 @@ export default function Room() {
     }, [memo]);
 
     function printMemo(memo){
+        if(!memo.text) return;
+        
         const textWidth = getTextWidth(memo.text, memo.fontSize + 'px sans-serif');
         const memoWidth = textWidth + 24;
         const randomDeg = -Math.random()*12;
