@@ -24,6 +24,7 @@ export default function Rooms() {
 
     function handleSearchClick(){
         let newUrl;
+        if(!searchUrl && !urlRecommand) return;
         if(!searchUrl)
             newUrl = encodeURI(urlRecommand);
         else
@@ -40,10 +41,12 @@ export default function Rooms() {
             <Room />
             <form onSubmit={handleSearchSubmit} className={styles.searchBar}>
                 <input name='url' type="text" className={styles.searchInput} onChange={handleUrlChange}
-                    placeholder={urlRecommand?urlRecommand:'방 탐색'}/>
+                    placeholder={urlRecommand?urlRecommand:'방 탐색'}
+                    autoComplete='off'
+                    />
                 <div className={styles.searchButtonWrapper} onClick={handleSearchClick}>
                     <img src="/images/right.svg" className={styles.searchButton}
-                        width="32px" height="32px"/>
+                        width="28px" height="28px"/>
                 </div>
             </form>
         </div>

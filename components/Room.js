@@ -54,12 +54,12 @@ export default function Room() {
         let shadow = document.createElement('div');
         shadow.className = styles.shadow;
         shadow.style.position = 'absolute';
-        shadow.style.left = memo.x + 2 + 'px';
+        shadow.style.left = memo.x + 3 + 'px';
         if(memoWidth + memo.x > width-12)
             shadow.style.left = width - textWidth - 36 + 'px';
-        shadow.style.top = memo.y + 'px';
-        shadow.style.width = memoWidth + 10 + 'px';
-        shadow.style.height = memo.fontSize + 20 + 'px';
+        shadow.style.top = memo.y + 2 + 'px';
+        shadow.style.width = memoWidth + 8 + 'px';
+        shadow.style.height = memo.fontSize + 16 + 'px';
         shadow.style.backgroundColor = 'rgba(0, 0, 0, 0.25)';
         
         document.getElementById('room').appendChild(shadow);

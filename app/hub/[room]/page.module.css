@@ -6,20 +6,6 @@
     background-image: url('/images/brickWall.png');
     overflow: hidden;
 }
-/* Light mode */
-@media (prefers-color-scheme: light) {
-    .searchInput{
-        background-color: #FFF;
-        color: #000;
-    }
-}
-/* Dark mode */
-@media (prefers-color-scheme: dark) {
-    .searchInput{
-        background-color: #000;
-        color: #FFF;
-    }
-}
 .searchBar{
     position: fixed;
     display: flex;
@@ -27,36 +13,38 @@
     top: 4vw;
     left: 0px;
     width: 100%;
-    height: 52px;
+    height: 54px;
     margin: 0px;
 }
 
 .searchInput{
     width: calc(92% - 84px);
-    height: 52px;
-    padding: 0px 8px;
+    height: 54px;
+    padding: 0px 10px;
+    background-color: #FFFA;
 
     outline: none;
     border: none;
     border-radius: 8px;
     font-size: x-large;
-    box-shadow: 0px 0px 4vw 2px rgba(0, 0, 0, 0.25);
+    box-shadow: 1px 1px 2vw 2px rgba(0, 0, 0, 0.25);
 }
 
 .searchButton{
+    opacity: 0.76;
 }
 
 .searchButtonWrapper{
-    width: 52px;
-    height: 52px;
+    width: 54px;
+    height: 54px;
     margin-left: 12px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #FFF;
+    background-color: #FFFA;
     border: none;
     border-radius: 8px;
-    box-shadow: 0px 0px 4vw 2px rgba(0, 0, 0, 0.25);
+    box-shadow: 1px 1px 2vw 2px rgba(0, 0, 0, 0.25);
 }
 
 .content{
@@ -77,7 +65,7 @@
 
 .shadow{
     pointer-events: none;
-    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.25);
 }
 
 .frontground{
