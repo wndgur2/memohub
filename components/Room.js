@@ -12,11 +12,12 @@ export default function Room() {
     const canvas = useRef(null);
 
     useEffect(() => {
-        setUrl(window.location.pathname.split('/')[2]);
+        const url = decodeURIComponent(window.location.pathname.split('/')[2]);
+        setUrl(url);
         setWidth(window.innerWidth);
         setHeight(window.innerHeight);
         // console log path name divided by '/'
-        getMemo(window.location.pathname.split('/')[2])
+        getMemo(url)
         .then((data)=>{setMemo(data.query);})
         .catch((err)=>{console.log(err)});
         // draw filled circle on canvas
@@ -40,7 +41,7 @@ export default function Room() {
         
         const textWidth = getTextWidth(memo.text, memo.fontSize + 'px sans-serif');
         const memoWidth = textWidth + 24;
-        const randomDeg = -Math.random()*12;
+        const skewDeg = -4;
 
         let div = document.createElement('div');
         div.className = styles.content;
@@ -50,7 +51,7 @@ export default function Room() {
         div.style.top = memo.y + 'px';
         div.style.width = memoWidth + 'px';
 
-        div.style.transform = `skew(${randomDeg}deg)`;
+        div.style.transform = `skew(${skewDeg}deg)`;
 
         div.style.font = memo.fontSize + 'px';
         div.style.fontFamily = 'sans-serif';
@@ -63,11 +64,11 @@ export default function Room() {
         let shadow = document.createElement('div');
         shadow.className = styles.shadow;
         shadow.style.position = 'absolute';
-        shadow.style.left = memo.x - (randomDeg/2) + 'px';
+        shadow.style.left = memo.x + 2 + 'px';
         if(memoWidth + memo.x > width-12)
             shadow.style.left = width - textWidth - 36 + 'px';
         shadow.style.top = memo.y + 'px';
-        shadow.style.width = memoWidth - randomDeg/2 + 'px';
+        shadow.style.width = memoWidth + 10 + 'px';
         shadow.style.height = memo.fontSize + 20 + 'px';
         shadow.style.backgroundColor = 'rgba(0, 0, 0, 0.25)';
         
