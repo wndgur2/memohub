@@ -3,13 +3,14 @@
 import { useEffect, useRef, useState } from 'react';
 import styles from '@/app/hub/[room]/page.module.css'
 import { getMemo, saveMemo } from '@/util/controller';
+import Frontground from './Frontground';
 
 export default function Room() {
     const [width, setWidth] = useState(0);
     const [height, setHeight] = useState(0);
     const [url, setUrl] = useState('');
     const [memo, setMemo] = useState([]);
-    const canvas = useRef(null);
+    const canvas = useRef();
 
     useEffect(() => {
         const url = decodeURIComponent(window.location.pathname.split('/')[2]);
@@ -20,16 +21,6 @@ export default function Room() {
         getMemo(url)
         .then((data)=>{setMemo(data.query);})
         .catch((err)=>{console.log(err)});
-        // draw filled circle on canvas
-        const ctx = canvas.current.getContext('2d');
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(0, 0, width, height);
-        ctx.fillStyle = '#000000';
-        ctx.beginPath();
-        ctx.arc(width/2, height/2, 100, 0, 2*Math.PI);
-        ctx.fill();
-
-
     }, []);
 
     useEffect(() => {
@@ -72,8 +63,8 @@ export default function Room() {
         shadow.style.height = memo.fontSize + 20 + 'px';
         shadow.style.backgroundColor = 'rgba(0, 0, 0, 0.25)';
         
-        document.body.appendChild(shadow);
-        document.body.appendChild(div);
+        document.getElementById('room').appendChild(shadow);
+        document.getElementById('room').appendChild(div);
     }
 
     function getTextWidth(text, font) {
@@ -151,9 +142,8 @@ export default function Room() {
 
     return (
         <div>
-            <div className={styles.background} onClick={handleRoomTouch}>
-            </div>
-            <canvas className={styles.canvas} ref={canvas} width={width} height={height}></canvas>
+            <div id='room' className={styles.background} onClick={handleRoomTouch} />
+            <Frontground />
         </div>
     )
 }
