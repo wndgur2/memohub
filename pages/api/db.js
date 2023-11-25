@@ -26,13 +26,20 @@ run().catch(console.dir);
 export async function writeData(data) {
     const database = client.db('memohub'); // 데이터베이스 이름 입력
     const collection = database.collection('memohub'); // 컬렉션 이름 입력
-
-    const document = data;
-    const result = await collection.insertOne(document);
-
-    console.log(`Inserted ${result.insertedCount} document into the collection`);
+    const urlCollection = database.collection('url');
+    const query = {url : data.url};
+    const cursor = await collection.find(query).toArray();
+    console.log(cursor);
+    if(cursor.length > 0){
+        const result = await collection.insertOne(data);
+        console.log(`Inserted ${data} document into the collection`);
+    }
+    else{
+        await urlCollection.insertOne({url : data.url});
+        const result = await collection.insertOne(data);
+        console.log(`Inserted ${data} document into the collection`);
+    }
 }
-
 export async function readData(id) {
     const database = client.db('memohub');
     const collection = database.collection('memohub');
@@ -41,10 +48,23 @@ export async function readData(id) {
 
     const cursor = collection.find(query);
     const documents = await cursor.toArray();
-    return documents;
     console.log('Documents read from the collection:', documents);
+    return documents;
+}
+
+export async function distinctData() {
+    const database = client.db('memohub');
+    const collection = database.collection('url');
+    const query = {};
+    
+    const cursor = await collection.find(query).toArray();
+    const randomDocument = cursor[Math.floor(Math.random() * cursor.length)];
+
+    console.log('랜덤으로 선택된 문서:', randomDocument);
+    return randomDocument;
 }
 
 export default (req, res) => {
     res.send('db is connected');
 }
+
