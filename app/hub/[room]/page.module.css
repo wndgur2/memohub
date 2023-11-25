@@ -21,7 +21,8 @@
     width: calc(92% - 84px);
     height: 54px;
     padding: 0px 10px;
-    background-color: #FFFA;
+    background-color: #FFF;
+    opacity: 0.86;
 
     outline: none;
     border: none;
@@ -31,7 +32,7 @@
 }
 
 .searchButton{
-    opacity: 0.76;
+    opacity: 0.86;
 }
 
 .searchButtonWrapper{
@@ -41,7 +42,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #FFFA;
+    background-color: #FFF;
+    opacity: 0.86;
     border: none;
     border-radius: 8px;
     box-shadow: 1px 1px 2vw 2px rgba(0, 0, 0, 0.25);

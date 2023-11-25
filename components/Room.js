@@ -20,6 +20,11 @@ export default function Room() {
         getMemo(url)
         .then((data)=>{setMemo(data.query);})
         .catch((err)=>{console.log(err)});
+
+        window.addEventListener('resize', () => {
+            setWidth(window.innerWidth);
+            setHeight(window.innerHeight);
+        });
     }, []);
 
     useEffect(() => {
@@ -87,8 +92,9 @@ export default function Room() {
     }
 
     function handleRoomTouch(e) {
-        let x = parseInt(e.clientX),
-        y = parseInt(e.clientY);
+        let x = parseInt(e.clientX), y = parseInt(e.clientY);
+        if(x > width - 60) x = width - 60;
+        if(y > height - 60) y = height - 60;
 
         // create textarea at x,y
         let textarea = document.createElement('textarea');

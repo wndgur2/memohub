@@ -3,20 +3,21 @@ import Room from '@/components/Room';
 import styles from './page.module.css'
 import { useEffect, useState } from 'react';
 import { getRandomURL } from '@/util/controller';
+import { useRouter } from 'next/navigation';
 
 export default function Rooms() {
     const [urlRecommand, setUrlRecommand] = useState('');
     const [searchUrl, setSearchUrl] = useState('');
+    const router = useRouter();
 
     function handleSearchSubmit(e){
         e.preventDefault();
         const newUrl = encodeURI(e.target.url.value);
-        window.location.href = `/hub/${newUrl}`;
+        router.push(`/hub/${newUrl}`);
     }
 
     useEffect(() => {
         getRandomURL().then(data=>{
-            // decode url string to string
             let url = decodeURIComponent(data.query.url);
             setUrlRecommand(url);
         });
@@ -29,7 +30,7 @@ export default function Rooms() {
             newUrl = encodeURI(urlRecommand);
         else
             newUrl = encodeURI(searchUrl);
-        window.location.href = `/hub/${newUrl}`;
+        router.push(`/hub/${newUrl}`);
     }
 
     function handleUrlChange(e){

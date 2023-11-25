@@ -1,15 +1,18 @@
 "use client"
 import { getRandomURL } from "@/util/controller";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react"
 
 export default function Home() {
+    const router = useRouter();
+
     useEffect(() => {
         getRandomURL().then(data=>{
             let url = data.query.url;
-            window.location.href = `/hub/${url}`;
+            router.push(`/hub/${url}`);
         }).catch(err=>{
             console.log(err);
-            window.location.href = `/hub/0`;
+            router.push(`/hub/0`);
         });
     }, []);
     return (

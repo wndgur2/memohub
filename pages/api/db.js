@@ -52,14 +52,15 @@ export async function readData(id) {
     return documents;
 }
 
-export async function distinctData() {
+export async function distinctData(originalUrl) {
     const database = client.db('memohub');
     const collection = database.collection('url');
     const query = {};
     
     const cursor = await collection.find(query).toArray();
     const randomDocument = cursor[Math.floor(Math.random() * cursor.length)];
-
+    if(originalUrl == randomDocument.url)
+        return distinctData(originalUrl);
     console.log('랜덤으로 선택된 문서:', randomDocument);
     return randomDocument;
 }
