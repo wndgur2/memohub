@@ -10,7 +10,6 @@ export default function Room() {
     const [height, setHeight] = useState(0);
     const [url, setUrl] = useState('');
     const [memo, setMemo] = useState([]);
-    const canvas = useRef();
 
     useEffect(() => {
         const url = decodeURIComponent(window.location.pathname.split('/')[2]);
@@ -142,7 +141,7 @@ export default function Room() {
 
     return (
         <div>
-            <div id='room' className={styles.background} onClick={handleRoomTouch} />
+            <div id='room' className={styles.room} onClick={handleRoomTouch} />
             <Frontground />
         </div>
     )

@@ -23,11 +23,11 @@ export default function Rooms() {
 
     return (
         <div>
+            <Room />
             <form onSubmit={handleSearchSubmit}>
                 <input name='url' type="text" className={styles.search}
                     placeholder={urlRecommand?urlRecommand:'방 탐색'}/>
             </form>
-            <Room />
         </div>
     )
 }
