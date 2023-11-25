@@ -6,6 +6,7 @@ import { getRandomURL } from '@/util/controller';
 
 export default function Rooms() {
     const [urlRecommand, setUrlRecommand] = useState('');
+    const [searchUrl, setSearchUrl] = useState('');
 
     function handleSearchSubmit(e){
         e.preventDefault();
@@ -21,12 +22,29 @@ export default function Rooms() {
         });
     }, []);
 
+    function handleSearchClick(){
+        let newUrl;
+        if(!searchUrl)
+            newUrl = encodeURI(urlRecommand);
+        else
+            newUrl = encodeURI(searchUrl);
+        window.location.href = `/hub/${newUrl}`;
+    }
+
+    function handleUrlChange(e){
+        setSearchUrl(e.target.value);
+    }
+
     return (
         <div>
             <Room />
-            <form onSubmit={handleSearchSubmit}>
-                <input name='url' type="text" className={styles.search}
+            <form onSubmit={handleSearchSubmit} className={styles.searchBar}>
+                <input name='url' type="text" className={styles.searchInput} onChange={handleUrlChange}
                     placeholder={urlRecommand?urlRecommand:'방 탐색'}/>
+                <div className={styles.searchButtonWrapper} onClick={handleSearchClick}>
+                    <img src="/images/right.svg" className={styles.searchButton}
+                        width="32px" height="32px"/>
+                </div>
             </form>
         </div>
     )
