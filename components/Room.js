@@ -75,11 +75,14 @@ export default function Room() {
         return metrics.width;
     }
 
-    function getRandomColor() {
-        const letters = '0123456789ABCDEF';
-        let color = '#';
-        for(let i = 0; i < 3; i++) 
-            color += letters[Math.floor(Math.random() * 4 + 12)];
+    function getColorByCurrentTime() {
+        const date = new Date();
+        const hour = parseInt(date.getHours() * 255/24);
+        const minute = parseInt(date.getMinutes() * 255/60);
+        const second = parseInt(date.getSeconds() * 255/60);
+        console.log(hour, minute, second);
+        const color = `#${hour.toString(16)}${minute.toString(16)}${second.toString(16)}`;
+        console.log(color);
         return color;
     }
 
@@ -113,7 +116,7 @@ export default function Room() {
             text: "",
             x,
             y,
-            color: getRandomColor(),
+            color: getColorByCurrentTime(),
             fontSize: 32,
         };
         // save memo when key down enter
