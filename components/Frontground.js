@@ -8,6 +8,12 @@ export default function Frontground() {
         canvasRef.current.width = window.innerWidth;
         canvasRef.current.height = window.innerHeight;
         startSnowing();
+
+        // resize canvas when window size changes
+        window.addEventListener('resize', ()=>{
+            canvasRef.current.width = window.innerWidth;
+            canvasRef.current.height = window.innerHeight;
+        });
     }, []);
 
     // to return snow at random x, y with random size, speed, opacity
