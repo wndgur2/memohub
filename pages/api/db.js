@@ -21,7 +21,7 @@ export async function run() {
         console.log(error);
     }
 }
-run().catch(console.dir);
+// run().catch(console.dir);
 
 export async function writeData(data) {
     const database = client.db('memohub'); // 데이터베이스 이름 입력
@@ -59,7 +59,9 @@ export async function distinctData(originalUrl) {
     
     const cursor = await collection.find(query).toArray();
     const randomDocument = cursor[Math.floor(Math.random() * cursor.length)];
-    if(originalUrl == randomDocument.url)
+    const newUrl = decodeURIComponent(randomDocument.url);
+
+    if(originalUrl == newUrl)
         return distinctData(originalUrl);
     console.log('랜덤으로 선택된 문서:', randomDocument);
     return randomDocument;

@@ -149,9 +149,6 @@ export default function Room() {
     }
 
     return (
-        <div>
-            <div id='room' className={styles.room} onClick={handleRoomTouch} />
-            <Frontground />
-        </div>
+        <div id='room' className={styles.room} onClick={handleRoomTouch} />
     )
 }

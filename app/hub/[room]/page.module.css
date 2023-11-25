@@ -3,7 +3,8 @@
     height: 100vh;
     margin: 0px;
     padding: 0px;
-    background-image: url('/images/brickWall.png');
+    background-color: grey;
+    /* background-image: url('/images/brickWall.png'); */
     overflow: hidden;
 }
 .searchBar{

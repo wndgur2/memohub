@@ -4,6 +4,7 @@ import styles from './page.module.css'
 import { useEffect, useState } from 'react';
 import { getRandomURL } from '@/util/controller';
 import { useRouter } from 'next/navigation';
+import Frontground from '@/components/Frontground';
 
 export default function Rooms() {
     const [urlRecommand, setUrlRecommand] = useState('');
@@ -25,11 +26,13 @@ export default function Rooms() {
 
     function handleSearchClick(){
         let newUrl;
-        if(!searchUrl && !urlRecommand) return;
-        if(!searchUrl)
+        if(!searchUrl && !urlRecommand) {
+            return;
+        }
+        else if(!searchUrl)
             newUrl = encodeURI(urlRecommand);
         else
-            newUrl = encodeURI(searchUrl);
+            newUrl = encodeURI(searchUrl.toLowerCase());
         router.push(`/hub/${newUrl}`);
     }
 
@@ -42,7 +45,7 @@ export default function Rooms() {
             <Room />
             <form onSubmit={handleSearchSubmit} className={styles.searchBar}>
                 <input name='url' type="text" className={styles.searchInput} onChange={handleUrlChange}
-                    placeholder={urlRecommand?urlRecommand:'방 탐색'}
+                    placeholder={urlRecommand}
                     autoComplete='off'
                     />
                 <div className={styles.searchButtonWrapper} onClick={handleSearchClick}>
@@ -50,6 +53,7 @@ export default function Rooms() {
                         width="28px" height="28px"/>
                 </div>
             </form>
+            <Frontground />
         </div>
     )
 }
