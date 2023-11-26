@@ -31,7 +31,6 @@ export default function Rooms() {
         else
             newUrl = encodeURI(searchUrl.toLowerCase());
         router.push(`/hub/${newUrl}`);
-        console.log(newUrl);
     }
 
     function handleUrlChange(e){

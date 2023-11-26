@@ -3,48 +3,22 @@
 import { useEffect, useRef, useState } from 'react';
 import styles from '@/app/hub/[room]/page.module.css'
 import { getMemo, saveMemo } from '@/util/controller';
-import { io } from 'socket.io-client';
+import socket from '@/util/socket-client';
 
 export default function Room() {
     const [width, setWidth] = useState(0);
     const [height, setHeight] = useState(0);
     const [url, setUrl] = useState('');
     const [memo, setMemo] = useState([]);
-    const [socket, setSocket] = useState();
 
-    
-
-    useEffect(() => {
-        fetch('/api/socket').then((res) => {
-            console.log(res);
-            const sock = io();
-            setSocket(sock);
-    
-            sock.on('welcome', (data) => {
-                console.log('Message from server:', data);
-            });
-    
-            sock.on('userCome', (socket) => {
-                console.log(socket);
-                // 서버에서 외부 socket 이 연결됨을 알림..
-            })
-    
-            sock.on('addMemo', (memo) => {
-                console.log(memo)
-                // 서버에서 외부 socket의 memo가 추가됨을 알림..
-            })
-        }).catch((err) => {
-            console.log(err);
-        });
-
-        // 컴포넌트가 언마운트될 때 소켓 연결 해제
-        return () => {
-            sock?.disconnect();
-        };
-    }, []);
 
     useEffect(() => {
         const url = decodeURIComponent(window.location.pathname.split('/')[2]);
+        socket.emit('enter',url);
+        socket.on('userOrder', (data) => {
+            console.log(data);
+            printMemo(data);
+        })
         console.log(url);
         setUrl(url);
         setWidth(window.innerWidth);
@@ -58,19 +32,16 @@ export default function Room() {
             setWidth(window.innerWidth);
             setHeight(window.innerHeight);
         });
+        return()=>{
+            socket.emit('leave',url);
+        }
     }, []);
+
 
     useEffect(() => {
         memo.forEach((memo) => { printMemo(memo); });
     }, [memo]);
 
-    function socketAddMemo(url, memo) {
-        socket.emit('addMemo', url, memo);
-    }
-
-    function socketUserCome(url) {
-        socket.emit('userCome', url);
-    }
 
     function printMemo(memo) {
         if (!memo.text) return;
@@ -90,7 +61,20 @@ export default function Room() {
             div.style.color = '#ffffff';
         div.style.backgroundColor = memo.color;
         div.innerHTML = memo.text;
-        
+
+        // new element for shadow
+        // let shadow = document.createElement('div');
+        // shadow.className = styles.shadow;
+        // shadow.style.position = 'absolute';
+        // shadow.style.left = memo.x + 3 + 'px';
+        // if(memoWidth + memo.x > width-12)
+        //     shadow.style.left = width - textWidth - 36 + 'px';
+        // shadow.style.top = memo.y + 2 + 'px';
+        // shadow.style.width = memoWidth + 8 + 'px';
+        // shadow.style.height = memo.fontSize + 16 + 'px';
+        // shadow.style.backgroundColor = 'rgba(0, 0, 0, 0.25)';
+
+        // document.getElementById('room').appendChild(shadow);
         document.getElementById('room').appendChild(div);
     }
 
@@ -152,6 +136,7 @@ export default function Room() {
             if (newMemo.text.length > 0) {
                 printMemo(newMemo);
                 saveMemo(newMemo);
+                socket.emit('order', url, newMemo);
             }
             document.body.removeChild(e.target);
         };
@@ -163,6 +148,7 @@ export default function Room() {
                 if (newMemo.text.length > 0) {
                     printMemo(newMemo);
                     saveMemo(newMemo);
+                    socket.emit('order', url, newMemo);
                 }
                 document.body.removeChild(e.target);
             }
@@ -172,9 +158,8 @@ export default function Room() {
 
     return (
         <>
-        <div id='room' className={styles.room} onClick={handleRoomTouch} />
-        <button onClick={()=>{socketUserCome(url)}}>userCome</button>
-        <button onClick={()=>{console.log('clicked')}}>addMemo</button>
+            <div id='room' className={styles.room} onClick={handleRoomTouch} />
+
         </>
     )
 }
