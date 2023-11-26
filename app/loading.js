@@ -1,5 +1,7 @@
+import Loader from "@/util/loader";
+
 export default function Loading() {
     return (
-        <div>Loading...</div>
+        <Loader />
     );
 }
