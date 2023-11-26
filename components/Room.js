@@ -15,32 +15,31 @@ export default function Room() {
     
 
     useEffect(() => {
-        try {
-            fetch('/api/socket');
-        }
-        catch (err) {
+        fetch('/api/socket').then((res) => {
+            console.log(res);
+            const sock = io();
+            setSocket(sock);
+    
+            sock.on('welcome', (data) => {
+                console.log('Message from server:', data);
+            });
+    
+            sock.on('userCome', (socket) => {
+                console.log(socket);
+                // 서버에서 외부 socket 이 연결됨을 알림..
+            })
+    
+            sock.on('addMemo', (memo) => {
+                console.log(memo)
+                // 서버에서 외부 socket의 memo가 추가됨을 알림..
+            })
+        }).catch((err) => {
             console.log(err);
-        }
-        const sock = io();
-        setSocket(sock);
-
-        sock.on('welcome', (data) => {
-            console.log('Message from server:', data);
         });
-
-        sock.on('userCome', (socket) => {
-            console.log(socket);
-            // 서버에서 외부 socket 이 연결됨을 알림..
-        })
-
-        sock.on('addMemo', (memo) => {
-            console.log(memo)
-            // 서버에서 외부 socket의 memo가 추가됨을 알림..
-        })
 
         // 컴포넌트가 언마운트될 때 소켓 연결 해제
         return () => {
-            sock.disconnect();
+            sock?.disconnect();
         };
     }, []);
 
@@ -91,20 +90,7 @@ export default function Room() {
             div.style.color = '#ffffff';
         div.style.backgroundColor = memo.color;
         div.innerHTML = memo.text;
-
-        // new element for shadow
-        // let shadow = document.createElement('div');
-        // shadow.className = styles.shadow;
-        // shadow.style.position = 'absolute';
-        // shadow.style.left = memo.x + 3 + 'px';
-        // if(memoWidth + memo.x > width-12)
-        //     shadow.style.left = width - textWidth - 36 + 'px';
-        // shadow.style.top = memo.y + 2 + 'px';
-        // shadow.style.width = memoWidth + 8 + 'px';
-        // shadow.style.height = memo.fontSize + 16 + 'px';
-        // shadow.style.backgroundColor = 'rgba(0, 0, 0, 0.25)';
-
-        // document.getElementById('room').appendChild(shadow);
+        
         document.getElementById('room').appendChild(div);
     }
 
