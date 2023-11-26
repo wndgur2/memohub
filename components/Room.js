@@ -148,8 +148,7 @@ export default function Room() {
     return (
         <>
         <div id='room' className={styles.room} onClick={handleRoomTouch} />
-        <button onClick={()=>{socketUserCome(url)}}>userCome</button>
-        <button onClick={()=>{console.log('clicked')}}>addMemo</button>
+
         </>
     )
 }
