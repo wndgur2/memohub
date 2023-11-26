@@ -8,8 +8,7 @@ export default function initKakao(url) {
         container: '#kakaotalk-sharing-btn',
         objectType: 'feed',
         content: {
-            title: `Check out memos on ${url}`,
-            // title: '메모허브 not pornhub',
+            title: `${url}의 메모허브`,
             description: '#니 #맘대로 #아무거나 #적어봐',
             imageUrl:
                 'https://loremflickr.com/320/240',
@@ -20,11 +19,11 @@ export default function initKakao(url) {
                 webUrl: config.vercel,
             },
         },
-        // social: {
-        //     likeCount: 286,
-        //     commentCount: 45,
-        //     sharedCount: 845,
-        // },
+        social: {
+            likeCount: 999,
+            commentCount: 999,
+            sharedCount: 999,
+        },
         buttons: [
             {
                 title: '웹으로 보기',
