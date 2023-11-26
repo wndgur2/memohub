@@ -50,7 +50,6 @@ export async function getMemo(id) {
 
 export async function getRandomURL() {
     const originalUrl = decodeURI(window.location.href.split('/hub/')[1]);
-    console.log(originalUrl);
     try {
         const response = await fetch(`/api/randomURL?originalUrl=${originalUrl}`, {
             method: 'GET',

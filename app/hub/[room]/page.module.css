@@ -10,40 +10,54 @@
     justify-content: center;
     align-items: center;
     overflow: hidden;
+}
 
-}
-.room{
-    width: 100vw;
-    height: 100vh;
-    margin: 0px;
-    padding: 0px;
-    background-color: grey;
-    /* background-image: url('/images/brickWall.png'); */
-    overflow: hidden;
-}
-.searchBar{
+.formWrapper{
     position: fixed;
-    display: flex;
-    justify-content: center;
-    top: 4vw;
+    top: 2vh;
     left: 0px;
     width: 100vw;
     height: 54px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.searchBar{
+    width: 90vw;
+    height: 56px;
     margin: 0px;
+    background-color: #FFF;
+    border-radius: 8px;
+    box-shadow: 1px 1px 2vw 2px rgba(0, 0, 0, 0.25);
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.share{
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    top: calc(4vh + 54px);
+    left: 5vw;
+    margin: 0px;
+    border-radius: 8px;
+    box-shadow: 1px 1px 2vw 2px rgba(0, 0, 0, 0.25);
 }
 
 .searchInput{
     width: calc(92% - 84px);
     height: 54px;
     padding: 0px 10px;
-    background-color: #FFF;
+    background: none;
     opacity: 0.86;
 
+    font-size: x-large;
     outline: none;
     border: none;
-    border-radius: 8px;
-    font-size: x-large;
-    box-shadow: 1px 1px 2vw 2px rgba(0, 0, 0, 0.25);
 }
 
 .searchButton{
@@ -57,11 +71,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #FFF;
     opacity: 0.86;
-    border: none;
-    border-radius: 8px;
-    box-shadow: 1px 1px 2vw 2px rgba(0, 0, 0, 0.25);
+}
+
+.room{
+    width: 100vw;
+    height: 100vh;
+    margin: 0px;
+    padding: 0px;
+    background-color: grey;
+    /* background-image: url('/images/brickWall.png'); */
+    overflow: hidden;
 }
 
 .content{

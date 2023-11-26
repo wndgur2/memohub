@@ -3,19 +3,12 @@
 import { useEffect, useRef, useState } from 'react';
 import styles from '@/app/hub/[room]/page.module.css'
 import { getMemo, saveMemo } from '@/util/controller';
-import config from '@/util/config';
-import initKakao from '@/util/kakaoShare';
 
 export default function Room() {
     const [width, setWidth] = useState(0);
     const [height, setHeight] = useState(0);
     const [url, setUrl] = useState('');
     const [memo, setMemo] = useState([]);
-
-    useEffect(() => {
-        const url = decodeURIComponent(window.location.pathname.split('/')[2]);
-        initKakao(url);
-    }, [])
 
     useEffect(() => {
         const url = decodeURIComponent(window.location.pathname.split('/')[2]);
@@ -91,9 +84,7 @@ export default function Room() {
         const hour = parseInt(date.getHours() * 255 / 24);
         const minute = parseInt(date.getMinutes() * 255 / 60);
         const second = parseInt(date.getSeconds() * 255 / 60);
-        console.log(hour, minute, second);
         const color = `#${hour.toString(16)}${minute.toString(16)}${second.toString(16)}`;
-        console.log(color);
         return color;
     }
 
@@ -156,15 +147,6 @@ export default function Room() {
     }
 
     return (
-        <>
-            <div id='room' className={styles.room} onClick={handleRoomTouch}>
-
-            <a id="kakaotalk-sharing-btn" href="javascript:;">
-                <img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png"
-                    alt="카카오톡 공유 보내기 버튼" />
-            </a>    
-            </div>
-            
-        </>
+        <div id='room' className={styles.room} onClick={handleRoomTouch} />
     )
 }

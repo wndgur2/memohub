@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { getRandomURL } from '@/util/controller';
 import { useRouter } from 'next/navigation';
 import Frontground from '@/components/Frontground';
+import initKakao from '@/util/kakaoShare';
 
 export default function Rooms() {
     const [urlRecommand, setUrlRecommand] = useState('');
@@ -18,10 +19,12 @@ export default function Rooms() {
     }
 
     useEffect(() => {
+        const currentUrl = decodeURIComponent(window.location.pathname.split('/')[2]);
         getRandomURL().then(data=>{
             let url = decodeURIComponent(data.query.url);
             setUrlRecommand(url);
         });
+        initKakao(currentUrl);
     }, []);
 
     function handleSearchClick(){
@@ -44,16 +47,23 @@ export default function Rooms() {
         <div>
             <div className={styles.container}>
                 <Room />
-                <form onSubmit={handleSearchSubmit} className={styles.searchBar}>
-                    <input name='url' type="text" className={styles.searchInput} onChange={handleUrlChange}
-                        placeholder={urlRecommand}
-                        autoComplete='off'
-                        />
-                    <div className={styles.searchButtonWrapper} onClick={handleSearchClick}>
-                        <img src="/images/right.svg" className={styles.searchButton}
-                            width="28px" height="28px"/>
-                    </div>
-                </form>
+                <div className={styles.formWrapper}>
+                    <form onSubmit={handleSearchSubmit} className={styles.searchBar}>
+                        <input name='url' type="text" className={styles.searchInput} onChange={handleUrlChange}
+                            placeholder={urlRecommand}
+                            autoComplete='off'
+                            />
+                        <div className={styles.searchButtonWrapper} onClick={handleSearchClick}>
+                            <img src="/images/right.svg" className={styles.searchButton}
+                                width="28px" height="28px"/>
+                        </div>
+                    </form>
+                </div>
+
+                <div>
+                    <img id='kakaotalk-sharing-btn' className={styles.share} src="/images/shares/kakao.png" alt="카카오톡 공유 보내기 버튼" width="52px" height="52px"/>
+                </div>
+                
                 <Frontground />
             </div>
         </div>
