@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from 'react';
 import styles from '@/app/hub/[room]/page.module.css'
 import { getMemo, saveMemo } from '@/util/controller';
-import Frontground from './Frontground';
 
 export default function Room() {
     const [width, setWidth] = useState(0);
@@ -56,18 +55,18 @@ export default function Room() {
         div.innerHTML = memo.text;
 
         // new element for shadow
-        let shadow = document.createElement('div');
-        shadow.className = styles.shadow;
-        shadow.style.position = 'absolute';
-        shadow.style.left = memo.x + 3 + 'px';
-        if(memoWidth + memo.x > width-12)
-            shadow.style.left = width - textWidth - 36 + 'px';
-        shadow.style.top = memo.y + 2 + 'px';
-        shadow.style.width = memoWidth + 8 + 'px';
-        shadow.style.height = memo.fontSize + 16 + 'px';
-        shadow.style.backgroundColor = 'rgba(0, 0, 0, 0.25)';
+        // let shadow = document.createElement('div');
+        // shadow.className = styles.shadow;
+        // shadow.style.position = 'absolute';
+        // shadow.style.left = memo.x + 3 + 'px';
+        // if(memoWidth + memo.x > width-12)
+        //     shadow.style.left = width - textWidth - 36 + 'px';
+        // shadow.style.top = memo.y + 2 + 'px';
+        // shadow.style.width = memoWidth + 8 + 'px';
+        // shadow.style.height = memo.fontSize + 16 + 'px';
+        // shadow.style.backgroundColor = 'rgba(0, 0, 0, 0.25)';
+        // document.getElementById('room').appendChild(shadow);
         
-        document.getElementById('room').appendChild(shadow);
         document.getElementById('room').appendChild(div);
     }
 
@@ -134,6 +133,7 @@ export default function Room() {
             }
             document.body.removeChild(e.target);
         };
+
         textarea.addEventListener('keydown', function(e) {
             if(e.keyCode == 13) {
                 e.target.removeEventListener('blur', listener);

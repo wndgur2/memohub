@@ -42,18 +42,20 @@ export default function Rooms() {
 
     return (
         <div>
-            <Room />
-            <form onSubmit={handleSearchSubmit} className={styles.searchBar}>
-                <input name='url' type="text" className={styles.searchInput} onChange={handleUrlChange}
-                    placeholder={urlRecommand}
-                    autoComplete='off'
-                    />
-                <div className={styles.searchButtonWrapper} onClick={handleSearchClick}>
-                    <img src="/images/right.svg" className={styles.searchButton}
-                        width="28px" height="28px"/>
-                </div>
-            </form>
-            <Frontground />
+            <div className={styles.container}>
+                <Room />
+                <form onSubmit={handleSearchSubmit} className={styles.searchBar}>
+                    <input name='url' type="text" className={styles.searchInput} onChange={handleUrlChange}
+                        placeholder={urlRecommand}
+                        autoComplete='off'
+                        />
+                    <div className={styles.searchButtonWrapper} onClick={handleSearchClick}>
+                        <img src="/images/right.svg" className={styles.searchButton}
+                            width="28px" height="28px"/>
+                    </div>
+                </form>
+                <Frontground />
+            </div>
         </div>
     )
 }
