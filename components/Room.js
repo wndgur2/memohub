@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import styles from '@/app/hub/[room]/page.module.css'
 import { getMemo, saveMemo } from '@/util/controller';
-import { io } from 'socket.io-client';
+import socket from '@/util/socket-client';
 
 export default function Room() {
     const [width, setWidth] = useState(0);
@@ -14,6 +14,11 @@ export default function Room() {
 
     useEffect(() => {
         const url = decodeURIComponent(window.location.pathname.split('/')[2]);
+        socket.emit('enter',url);
+        socket.on('userOrder', (data) => {
+            console.log(data);
+            printMemo(data);
+        })
         console.log(url);
         setUrl(url);
         setWidth(window.innerWidth);
@@ -27,7 +32,11 @@ export default function Room() {
             setWidth(window.innerWidth);
             setHeight(window.innerHeight);
         });
+        return()=>{
+            socket.emit('leave',url);
+        }
     }, []);
+
 
     useEffect(() => {
         memo.forEach((memo) => { printMemo(memo); });
@@ -127,6 +136,7 @@ export default function Room() {
             if (newMemo.text.length > 0) {
                 printMemo(newMemo);
                 saveMemo(newMemo);
+                socket.emit('order', url, newMemo);
             }
             document.body.removeChild(e.target);
         };
@@ -138,6 +148,7 @@ export default function Room() {
                 if (newMemo.text.length > 0) {
                     printMemo(newMemo);
                     saveMemo(newMemo);
+                    socket.emit('order', url, newMemo);
                 }
                 document.body.removeChild(e.target);
             }
@@ -147,7 +158,7 @@ export default function Room() {
 
     return (
         <>
-        <div id='room' className={styles.room} onClick={handleRoomTouch} />
+            <div id='room' className={styles.room} onClick={handleRoomTouch} />
 
         </>
     )
