@@ -33,17 +33,12 @@ export default function Room() {
     function printMemo(memo) {
         if (!memo.text) return;
 
-        const textWidth = getTextWidth(memo.text, memo.fontSize + 'px sans-serif');
-        const memoWidth = textWidth + 24;
         const skewDeg = -4;
-
+        
         let div = document.createElement('div');
         div.className = styles.content;
         div.style.left = memo.x + 'px';
-        if (memoWidth + memo.x > width - 12)
-            div.style.left = width - textWidth - 36 + 'px';
         div.style.top = memo.y + 'px';
-        div.style.width = memoWidth + 'px';
 
         div.style.transform = `skew(${skewDeg}deg)`;
 
