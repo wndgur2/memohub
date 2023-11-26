@@ -25,7 +25,7 @@ export async function run() {
 
 export async function writeData(data) {
     const database = client.db('memohub'); // 데이터베이스 이름 입력
-    const collection = database.collection('memohub'); // 컬렉션 이름 입력
+    const collection = database.collection('memo'); // 컬렉션 이름 입력
     const urlCollection = database.collection('url');
     const query = {url : data.url};
     const cursor = await collection.find(query).toArray();
