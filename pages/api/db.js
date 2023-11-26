@@ -42,7 +42,7 @@ export async function writeData(data) {
 }
 export async function readData(id) {
     const database = client.db('memohub');
-    const collection = database.collection('memohub');
+    const collection = database.collection('memo');
 
     const query = { url: id };
 

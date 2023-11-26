@@ -21,19 +21,21 @@ export default function Rooms() {
         initKakao(currentUrl);
     }, []);
 
-    function explore(){
+    function explore(e){
+        e.preventDefault();
         let newUrl;
-        if(!searchUrl && !urlRecommand) {
+        if(!searchUrl && !urlRecommand)
             return;
-        }
         else if(!searchUrl)
             newUrl = encodeURI(urlRecommand);
         else
             newUrl = encodeURI(searchUrl.toLowerCase());
         router.push(`/hub/${newUrl}`);
+        console.log(newUrl);
     }
 
     function handleUrlChange(e){
+        // console.log(searchUrl);
         setSearchUrl(e.target.value);
     }
 
