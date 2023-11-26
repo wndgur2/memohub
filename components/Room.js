@@ -10,39 +10,7 @@ export default function Room() {
     const [height, setHeight] = useState(0);
     const [url, setUrl] = useState('');
     const [memo, setMemo] = useState([]);
-    const [socket, setSocket] = useState();
 
-    
-
-    useEffect(() => {
-        try {
-            fetch('/api/socket');
-        }
-        catch (err) {
-            console.log(err);
-        }
-        const sock = io();
-        setSocket(sock);
-
-        sock.on('welcome', (data) => {
-            console.log('Message from server:', data);
-        });
-
-        sock.on('userCome', (socket) => {
-            console.log(socket);
-            // 서버에서 외부 socket 이 연결됨을 알림..
-        })
-
-        sock.on('addMemo', (memo) => {
-            console.log(memo)
-            // 서버에서 외부 socket의 memo가 추가됨을 알림..
-        })
-
-        // 컴포넌트가 언마운트될 때 소켓 연결 해제
-        return () => {
-            sock.disconnect();
-        };
-    }, []);
 
     useEffect(() => {
         const url = decodeURIComponent(window.location.pathname.split('/')[2]);
@@ -65,13 +33,6 @@ export default function Room() {
         memo.forEach((memo) => { printMemo(memo); });
     }, [memo]);
 
-    function socketAddMemo(url, memo) {
-        socket.emit('addMemo', url, memo);
-    }
-
-    function socketUserCome(url) {
-        socket.emit('userCome', url);
-    }
 
     function printMemo(memo) {
         if (!memo.text) return;
