@@ -1,7 +1,9 @@
 import config from "./config";
 
 export default function initKakao(url) {
-    Kakao.init('9972788af7f5094a415d92993bac3517');
+    if (!Kakao.isInitialized()) {
+        Kakao.init('9972788af7f5094a415d92993bac3517');
+    }
     Kakao.Share.createDefaultButton({
         container: '#kakaotalk-sharing-btn',
         objectType: 'feed',
