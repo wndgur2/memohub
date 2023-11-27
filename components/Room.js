@@ -186,6 +186,7 @@ export default function Room() {
     }
 
     function handleRoomTouchEnd(e) {
+        e.preventDefault();
         createTextArea(touchedX, touchedY);
         setFontSize(24);
     }
