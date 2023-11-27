@@ -113,6 +113,7 @@ export default function Room() {
         // create textarea at x,y
         let textarea = document.createElement('textarea');
         newMemoRef.current = textarea;
+
         textarea.className = styles.content;
         textarea.id = 'newMemo';
         textarea.style.position = 'absolute';
@@ -175,6 +176,7 @@ export default function Room() {
         setTouchedX(x);
         setTouchedY(y);
         createTextArea(x, y);
+        newMemoRef.current.focus();
     }
 
     function handleRoomTouchMove(e) {
@@ -186,9 +188,9 @@ export default function Room() {
     }
 
     function handleRoomTouchEnd(e) {
-        e.preventDefault();
         createTextArea(touchedX, touchedY);
         setFontSize(24);
+        newMemoRef.current.focus();
     }
 
     return (
