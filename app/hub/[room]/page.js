@@ -40,7 +40,7 @@ export default function Rooms() {
         setSearchUrl(e.target.value);
     }
     function shareBtnHandler(e){
-        navigator.clipboard.writeText(window.location.href).then((data)=>{alert('URL 복사했음 공유 ㄱ')});
+        navigator.clipboard.writeText(window.location.href);
     }
 
     return (
