@@ -13,6 +13,7 @@ export default function Room() {
 
 
     useEffect(() => {
+        socket.connect();
         const url = decodeURIComponent(window.location.pathname.split('/')[2]);
         socket.emit('enter',url);
         socket.on('userOrder', (data) => {
@@ -32,6 +33,7 @@ export default function Room() {
         });
         return()=>{
             socket.emit('leave',url);
+            socket.disconnect();
         }
     }, []);
 
