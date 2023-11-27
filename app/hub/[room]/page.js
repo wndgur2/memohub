@@ -10,10 +10,12 @@ import initKakao from '@/util/kakaoShare';
 export default function Rooms() {
     const [urlRecommand, setUrlRecommand] = useState('');
     const [searchUrl, setSearchUrl] = useState('');
+    const [currentUrl, setCurrentUrl] = useState('');
     const router = useRouter();
 
     useEffect(() => {
         const currentUrl = decodeURIComponent(window.location.pathname.split('/')[2]);
+        setCurrentUrl(currentUrl);
         getRandomURL().then(data => {
             let url = decodeURIComponent(data.query.url);
             setUrlRecommand(url);
@@ -47,14 +49,47 @@ export default function Rooms() {
         });
     }
     function copyBtnHandler(e){
-        navigator.clipboard.writeText(window.location.href);
+        navigator.clipboard.writeText(decodeURIComponent(window.location.href));
+
+    }
+
+    function dropShares(e){
+        console.log("drop");
+
+        const shares = document.getElementsByClassName(styles.share);
+        for(let i=0; i<shares.length; i++){
+            shares[i].classList.toggle(styles.drop);
+        }
     }
 
     return (
         <div>
             <div className={styles.container}>
+
                 <Room />
-                <div className={styles.formWrapper}>
+                <div className={styles.currentUrlWrapper}>
+                    <p className={styles.currentUrl}>{currentUrl}</p>
+                </div>
+
+                <div className={styles.toggleShare} onClick={dropShares}>
+                    <div className={styles.shareWrapper}>
+                        <img src="/images/shares/share.svg" alt="공유" width="28" height="28" />
+                    </div>
+                </div>
+
+                <div className={styles.shares}>
+                    <div className={styles.shareWrapper + ' ' + styles.share}>
+                        <img id='kakaotalk-sharing-btn' src="/images/shares/kakao_round.png" alt="카카오톡 공유 보내기 버튼" width="48px" height="48px" />
+                    </div>
+                    <div className={styles.shareWrapper + ' ' + styles.share}>
+                        <img onClick={shareBtnHandler} src="/images/shares/share2.svg" alt="공유 보내기 버튼" width="30px" height="30px" />
+                    </div>
+                    <div className={styles.shareWrapper + ' ' + styles.share}>
+                        <img onClick={copyBtnHandler} src="/images/shares/copy.svg" alt="공유 보내기 버튼" width="36px" height="36px" />
+                    </div>
+                </div>
+
+                <div className={styles.searchBarWrapper}>
                     <form onSubmit={explore} className={styles.searchBar}>
                         <input name='url' type="text" className={styles.searchInput} onChange={handleUrlChange}
                             placeholder={urlRecommand}
@@ -67,15 +102,6 @@ export default function Rooms() {
                     </form>
                 </div>
 
-                <div>
-                    <img id='kakaotalk-sharing-btn' className={styles.share} src="/images/shares/kakao.png" alt="카카오톡 공유 보내기 버튼" width="52px" height="52px" />
-                </div>
-                <div>
-                    <img id='sharing-btn' onClick={shareBtnHandler} className={styles.justshare} src="/images/shares/share.png" alt="공유 보내기 버튼" width="52px" height="52px" />
-                </div>
-                <div>
-                    <img id='copy-btn' onClick={copyBtnHandler} className={styles.copy} src="/images/shares/copy.png" alt="공유 보내기 버튼" width="52px" height="52px" />
-                </div>
                 <Frontground />
             </div>
         </div>
