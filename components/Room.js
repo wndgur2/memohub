@@ -13,7 +13,6 @@ export default function Room() {
     const [fontSize, setFontSize] = useState(24);
     const [touchedX, setTouchedX] = useState(0);
     const [touchedY, setTouchedY] = useState(0);
-    const [isCreating, setIsCreating] = useState(false);
     const newMemoRef = useRef(null);
 
     useEffect(() => {
@@ -111,8 +110,6 @@ export default function Room() {
     }
 
     function createTextArea(x, y){
-        if (isCreating) return;
-        setIsCreating(true);
         setFontSize(24);
         // create textarea at x,y
         let textarea = document.createElement('textarea');
@@ -138,19 +135,19 @@ export default function Room() {
 
         document.body.appendChild(textarea);
         textarea.focus();
-        const newMemo =
-        {
-            url,
-            text: "",
-            x,
-            y,
-            color: getColorByCurrentTime(),
-            fontSize: ()=>fontSize,
-        };
 
         // save memos
         const listener = function (e) {
-            newMemo.text = e.target.value;
+            const newMemo =
+            {
+                url,
+                text: "",
+                x,
+                y,
+                color: getColorByCurrentTime(),
+                fontSize,
+                text: e.target.value,
+            };
             if (newMemo.text.length > 0) {
                 playPencilSound(newMemo.text.length);
                 printMemo(newMemo);
@@ -158,7 +155,6 @@ export default function Room() {
                 socket.emit('order', url, newMemo);
             }
             document.body.removeChild(e.target);
-            setIsCreating(false);
         };
         textarea.addEventListener('blur', listener);
         textarea.addEventListener('keydown', function (e) {
