@@ -29,12 +29,12 @@ export default function Rooms() {
         setIsWebView(getIsWebView());
 
         // fullscreen
-        const containerElement = container.current;
-        const fullScreenRequest = containerElement.requestFullscreen || containerElement.webkitRequestFullscreen || containerElement.msRequestFullscreen;
-        if (fullScreenRequest)
-            fullScreenRequest.call(containerElement).catch(err => {
-                console.log("fullscreen error");
-            });
+        // const containerElement = container.current;
+        // const fullScreenRequest = containerElement.requestFullscreen || containerElement.webkitRequestFullscreen || containerElement.msRequestFullscreen;
+        // if (fullScreenRequest)
+        //     fullScreenRequest.call(containerElement).catch(err => {
+        //         console.log("fullscreen error");
+        //     });
     }, []);
 
     useEffect(()=>{
