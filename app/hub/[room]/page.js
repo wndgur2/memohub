@@ -31,7 +31,7 @@ export default function Rooms() {
         else
             newUrl = encodeURI(searchUrl.toLowerCase());
         router.push(`/hub/${newUrl}`);
-        
+
         console.log(newUrl);
     }
 
@@ -39,7 +39,14 @@ export default function Rooms() {
         // console.log(searchUrl);
         setSearchUrl(e.target.value);
     }
-    function shareBtnHandler(e){
+    function shareBtnHandler(e) {
+        navigator.share({
+            title: 'asd',
+            text: "Hello World",
+            url: "https://developer.mozilla.org",
+        });
+    }
+    function copyBtnHandler(e){
         navigator.clipboard.writeText(window.location.href);
     }
 
@@ -65,6 +72,9 @@ export default function Rooms() {
                 </div>
                 <div>
                     <img id='sharing-btn' onClick={shareBtnHandler} className={styles.justshare} src="/images/shares/share.png" alt="공유 보내기 버튼" width="52px" height="52px" />
+                </div>
+                <div>
+                    <img id='copy-btn' onClick={copyBtnHandler} className={styles.copy} src="/images/shares/copy.png" alt="공유 보내기 버튼" width="52px" height="52px" />
                 </div>
                 <Frontground />
             </div>
