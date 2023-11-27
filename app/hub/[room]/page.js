@@ -100,16 +100,16 @@ export default function Rooms() {
                 </div>
 
                 <div className={styles.shares}>
-                    <div className={styles.shareWrapper + ' ' + styles.share}>
-                        <img onClick={shareBtnHandler} src="/images/shares/share2.svg" alt="공유 보내기 버튼" width="29px" height="29px" />
-                    </div>
                     {
                         isWebView?
                         <></>:
                         <div className={styles.shareWrapper + ' ' + styles.share}>
-                            <img onClick={copyBtnHandler} src="/images/shares/copy.svg" alt="공유 보내기 버튼" width="32px" height="32px" />
+                            <img onClick={shareBtnHandler} src="/images/shares/share2.svg" alt="공유 보내기 버튼" width="29px" height="29px" />
                         </div>
                     }
+                    <div className={styles.shareWrapper + ' ' + styles.share}>
+                        <img onClick={copyBtnHandler} src="/images/shares/copy.svg" alt="공유 보내기 버튼" width="32px" height="32px" />
+                    </div>
                     <div className={styles.shareWrapper + ' ' + styles.share} style={{boxShadow:"none"}}>
                         <img id='kakaotalk-sharing-btn' src="/images/shares/kakao_round.png" alt="카카오톡 공유 보내기 버튼" width="42px" height="42px" />
                     </div>
