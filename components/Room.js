@@ -113,6 +113,7 @@ export default function Room() {
     function createTextArea(x, y){
         if (isCreating) return;
         setIsCreating(true);
+        setFontSize(24);
         // create textarea at x,y
         let textarea = document.createElement('textarea');
         newMemoRef.current = textarea;
@@ -193,7 +194,6 @@ export default function Room() {
 
     function handleRoomTouchEnd(e) {
         createTextArea(touchedX, touchedY);
-        setFontSize(24);
         newMemoRef.current.focus();
     }
 

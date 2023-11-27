@@ -37,7 +37,7 @@
     text-shadow: 1px 1px 1vw rgba(0, 0, 0, 1);
     letter-spacing: 1vw;
     white-space: nowrap;
-    overflow-x: scroll;
+    overflow-x: visible;
 }
 
 .toggleShare{
