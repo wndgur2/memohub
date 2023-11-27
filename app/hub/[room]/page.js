@@ -39,13 +39,15 @@ export default function Rooms() {
         // console.log(searchUrl);
         setSearchUrl(e.target.value);
     }
-    function shareBtnHandler(e) {
-        navigator.share({
-            title: 'memoHub',
-            text: 'myHub',
-            url: window.location.href,
-        });
-    }
+    // function shareBtnHandler(e) {
+    //     navigator.share({
+    //         title: 'memoHub',
+    //         text: 'myHub',
+    //         url: window.location.href,
+    //     });
+    // }
+    // 안드로이드 웹뷰에서 지원하지 않음. -> 일단 제거
+
     function copyBtnHandler(e){
         navigator.clipboard.writeText(window.location.href);
     }
@@ -70,11 +72,11 @@ export default function Rooms() {
                 <div>
                     <img id='kakaotalk-sharing-btn' className={styles.share} src="/images/shares/kakao.png" alt="카카오톡 공유 보내기 버튼" width="52px" height="52px" />
                 </div>
-                <div>
+                {/* <div>
                     <img id='sharing-btn' onClick={shareBtnHandler} className={styles.justshare} src="/images/shares/share.png" alt="공유 보내기 버튼" width="52px" height="52px" />
-                </div>
+                </div> */}
                 <div>
-                    <img id='copy-btn' onClick={copyBtnHandler} className={styles.copy} src="/images/shares/copy.png" alt="공유 보내기 버튼" width="52px" height="52px" />
+                    <img id='copy-btn' onClick={copyBtnHandler} className={styles.justshare} src="/images/shares/copy.png" alt="공유 보내기 버튼" width="52px" height="52px" />
                 </div>
                 <Frontground />
             </div>
