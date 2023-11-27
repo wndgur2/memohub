@@ -17,22 +17,27 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    left: 5vw;
-    top: 2vh;
-    width: calc(90vw - 52px);
+    transform: translate(-50%, 0%);
+    left: 50vw;
+    top: 1.5vh;
+    width: 100vw;
     height: 48px;
 }
 
 .currentUrl{
-    width: 100%;
+    width: 90%;
     height: 100%;
     margin: 0px;
     padding: 0px;
     padding-left: 8px;
     color: white;
-    font-size: 32px;
+    font-size: 40px;
     font-weight: bold;
+    text-align: center;
     text-shadow: 1px 1px 1vw rgba(0, 0, 0, 1);
+    letter-spacing: 1vw;
+    white-space: nowrap;
+    overflow-x: scroll;
 }
 
 .toggleShare{
@@ -59,7 +64,7 @@
     pointer-events: none;
 }
 
-.share{
+.hidden{
     visibility: hidden;
 }
 
@@ -83,7 +88,7 @@
 
 .searchBarWrapper{
     position: fixed;
-    top: calc(4vh + 48px);
+    top: calc(3vh + 48px);
     left: 0px;
     width: 100vw;
     height: 54px;
@@ -96,24 +101,24 @@
 }
 
 .searchBar{
-    width: 90vw;
-    height: 56px;
+    width: 92vw;
+    height: 54px;
     margin: 0px;
     background-color: #FFF;
     border-radius: 8px;
-    box-shadow: 1px 1px 2vw 2px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 0px 2vw 2px rgba(0, 0, 0, 0.5);
 
     display: flex;
     justify-content: space-between;
     align-items: center;
+    opacity: 0.86;
 }
 
 .searchInput{
-    width: calc(92% - 84px);
+    width: calc(92vw - 64px);
     height: 54px;
-    padding: 0px 10px;
+    padding-left: 10px;
     background: none;
-    opacity: 0.86;
 
     font-size: x-large;
     outline: none;
@@ -121,17 +126,14 @@
 }
 
 .searchButton{
-    opacity: 0.86;
 }
 
 .searchButtonWrapper{
     width: 54px;
     height: 54px;
-    margin-left: 12px;
     display: flex;
     justify-content: center;
     align-items: center;
-    opacity: 0.86;
 }
 
 .room{
@@ -154,12 +156,10 @@
     border: none;
     resize: none;
 
-    font-size: 32px;
+    white-space: nowrap;
     text-wrap: nowrap;
     pointer-events: none;
     box-shadow: 2px 2px 1vw 2px rgba(0, 0, 0, 0.25);
-
-    max-height: 30vh;
     overflow: hidden;
 }
 

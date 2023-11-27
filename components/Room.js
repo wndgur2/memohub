@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from '@/app/hub/[room]/page.module.css'
 import { getMemo, saveMemo } from '@/util/controller';
 import socket from '@/util/socket-client';
@@ -10,7 +10,10 @@ export default function Room() {
     const [height, setHeight] = useState(0);
     const [url, setUrl] = useState('');
     const [memo, setMemo] = useState([]);
-
+    const [fontSize, setFontSize] = useState(24);
+    const [touchedX, setTouchedX] = useState(0);
+    const [touchedY, setTouchedY] = useState(0);
+    const newMemoRef = useRef(null);
 
     useEffect(() => {
         socket.connect();
@@ -55,7 +58,7 @@ export default function Room() {
 
         div.style.transform = `skew(${skewDeg}deg)`;
 
-        div.style.font = memo.fontSize + 'px';
+        div.style.fontSize = memo.fontSize + 'px';
         div.style.fontFamily = 'sans-serif';
         if (parseInt(memo.color.substring(1, 3), 16) + parseInt(memo.color.substring(3, 5), 16) + parseInt(memo.color.substring(5, 7), 16) < 382)
             div.style.color = '#ffffff';
@@ -106,26 +109,25 @@ export default function Room() {
         }
     }
 
-    function handleRoomTouch(e) {
-        let x = parseInt(e.clientX), y = parseInt(e.clientY);
-        if (x > width - 60) x = width - 60;
-        if (y > height - 60) y = height - 60;
-
+    function createTextArea(x, y){
         // create textarea at x,y
         let textarea = document.createElement('textarea');
+        newMemoRef.current = textarea;
         textarea.className = styles.content;
         textarea.id = 'newMemo';
         textarea.style.position = 'absolute';
         textarea.style.left = x + 'px';
         textarea.style.top = y + 'px';
         textarea.style.width = '40px';
-        textarea.style.height = '42px';
+        textarea.style.height = fontSize + 6 + 'px';
+        textarea.style.fontSize = fontSize+'px';
 
         textarea.oninput = function () {
-            textarea.style.width = getTextWidth(textarea.value, '32px sans-serif') + 24 + 'px';
-            if (getTextWidth(textarea.value, '32px sans-serif') + 24 + x > width - 12) {
-                textarea.style.left = width - getTextWidth(textarea.value, '32px sans-serif') - 36 + 'px';
-                x = width - getTextWidth(textarea.value, '32px sans-serif') - 36;
+            const textWidth = getTextWidth(textarea.value, fontSize + 'px sans-serif');
+            textarea.style.width = textWidth + 24 + 'px';
+            if (textWidth + 36 + x > width) {
+                textarea.style.left = width - textWidth - 24 + 'px';
+                x = width - textWidth - 24;
             }
         };
 
@@ -138,7 +140,7 @@ export default function Room() {
             x,
             y,
             color: getColorByCurrentTime(),
-            fontSize: 32,
+            fontSize,
         };
 
         // save memos
@@ -161,9 +163,41 @@ export default function Room() {
         });
     }
 
+    function handleRoomTouch(e) {
+        let x = parseInt(e.clientX), y = parseInt(e.clientY);
+        if (x > width - 60) x = width - 60;
+        if (y > height - 60) y = height - 60;
+        createTextArea(x, y);
+    }
+
+    function handleRoomTouchStart(e) {
+        let x = parseInt(e.changedTouches[0].clientX), y = parseInt(e.changedTouches[0].clientY);
+        setTouchedX(x);
+        setTouchedY(y);
+        createTextArea(x, y);
+    }
+
+    function handleRoomTouchMove(e) {
+        let x = parseInt(e.changedTouches[0].clientX), y = parseInt(e.changedTouches[0].clientY);
+        let newFontSize = parseInt(Math.abs(y - touchedY)/4 + Math.abs(x - touchedX)/4 + 12);
+        setFontSize(newFontSize);
+        newMemoRef.current.style.fontSize = newFontSize + 'px';
+        newMemoRef.current.style.height = newFontSize + 6 + 'px';
+    }
+
+    function handleRoomTouchEnd(e) {
+        createTextArea(touchedX, touchedY);
+        setFontSize(24);
+    }
+
     return (
         <>
-            <div id='room' className={styles.room} onClick={handleRoomTouch} />
+            <div id='room' className={styles.room}
+                onClick={handleRoomTouch}
+                onTouchStart={handleRoomTouchStart}
+                onTouchMove={handleRoomTouchMove}
+                onTouchEnd={handleRoomTouchEnd}
+            />
         </>
     )
 }

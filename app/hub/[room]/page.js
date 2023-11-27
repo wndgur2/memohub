@@ -61,6 +61,8 @@ export default function Rooms() {
     }
 
     function handleUrlChange(e) {
+        if(e.target.value.length > 10) return;
+        console.log(e.target.value.length);
         setSearchUrl(e.target.value);
     }
 
@@ -78,7 +80,7 @@ export default function Rooms() {
     }
 
     function dropShares(e){
-        const shares = document.getElementsByClassName(styles.share);
+        const shares = document.getElementsByClassName(styles.hidden);
         for(let i=0; i<shares.length; i++){
             shares[i].classList.toggle(styles.drop);
         }
@@ -103,21 +105,23 @@ export default function Rooms() {
                     {
                         isWebView?
                         <></>:
-                        <div className={styles.shareWrapper + ' ' + styles.share}>
+                        <div className={styles.shareWrapper + ' ' + styles.hidden}>
                             <img onClick={shareBtnHandler} src="/images/shares/share2.svg" alt="공유 보내기 버튼" width="29px" height="29px" />
                         </div>
                     }
-                    <div className={styles.shareWrapper + ' ' + styles.share}>
+                    <div className={styles.shareWrapper + ' ' + styles.hidden}>
                         <img onClick={copyBtnHandler} src="/images/shares/copy.svg" alt="공유 보내기 버튼" width="32px" height="32px" />
                     </div>
-                    <div className={styles.shareWrapper + ' ' + styles.share} style={{boxShadow:"none"}}>
+                    <div className={styles.shareWrapper + ' ' + styles.hidden} style={{boxShadow:"none"}}>
                         <img id='kakaotalk-sharing-btn' src="/images/shares/kakao_round.png" alt="카카오톡 공유 보내기 버튼" width="42px" height="42px" />
                     </div>
                 </div>
 
                 <div className={styles.searchBarWrapper}>
                     <form onSubmit={explore} className={styles.searchBar}>
-                        <input name='url' type="text" className={styles.searchInput} onChange={handleUrlChange}
+                        <input name='url' type="text" className={styles.searchInput}
+                            onChange={handleUrlChange}
+                            value={searchUrl}
                             placeholder={urlRecommand}
                             autoComplete='off'
                         />
