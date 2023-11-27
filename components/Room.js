@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from '@/app/hub/[room]/page.module.css'
 import { getMemo, saveMemo } from '@/util/controller';
 import socket from '@/util/socket-client';
@@ -16,14 +16,12 @@ export default function Room() {
         const url = decodeURIComponent(window.location.pathname.split('/')[2]);
         socket.emit('enter',url);
         socket.on('userOrder', (data) => {
-            console.log(data);
             printMemo(data);
-        })
-        console.log(url);
+        });
+
         setUrl(url);
         setWidth(window.innerWidth);
         setHeight(window.innerHeight);
-        // console log path name divided by '/'
         getMemo(url)
             .then((data) => { setMemo(data.query); })
             .catch((err) => { console.log(err) });
@@ -61,20 +59,7 @@ export default function Room() {
             div.style.color = '#ffffff';
         div.style.backgroundColor = memo.color;
         div.innerHTML = memo.text;
-
-        // new element for shadow
-        // let shadow = document.createElement('div');
-        // shadow.className = styles.shadow;
-        // shadow.style.position = 'absolute';
-        // shadow.style.left = memo.x + 3 + 'px';
-        // if(memoWidth + memo.x > width-12)
-        //     shadow.style.left = width - textWidth - 36 + 'px';
-        // shadow.style.top = memo.y + 2 + 'px';
-        // shadow.style.width = memoWidth + 8 + 'px';
-        // shadow.style.height = memo.fontSize + 16 + 'px';
-        // shadow.style.backgroundColor = 'rgba(0, 0, 0, 0.25)';
-
-        // document.getElementById('room').appendChild(shadow);
+        
         document.getElementById('room').appendChild(div);
     }
 
@@ -89,10 +74,22 @@ export default function Room() {
 
     function getColorByCurrentTime() {
         const date = new Date();
-        const hour = parseInt(date.getHours() * 255 / 24);
-        const minute = parseInt(date.getMinutes() * 255 / 60);
-        const second = parseInt(date.getSeconds() * 255 / 60);
-        const color = `#${hour.toString(16)}${minute.toString(16)}${second.toString(16)}`;
+        const currentHour = date.getHours();
+        let hour, minute, second, color;
+        if(currentHour>=6 && currentHour<=17){
+            hour = parseInt(date.getHours() * 128 / 24 + 127);
+            minute = parseInt(date.getMinutes() * 128 / 60 + 127);
+            second = parseInt(date.getSeconds() * 128 / 60 + 127);
+        } else{
+            hour = parseInt(date.getHours() * 128 / 24);
+            minute = parseInt(date.getMinutes() * 128 / 60);
+            second = parseInt(date.getSeconds() * 128 / 60);
+        }
+        [hour, minute, second] = [hour, minute, second].map((value) => {
+            if (value <= 15) return '0' + value.toString(16);
+            else return value.toString(16);
+        });
+        color = `#${hour}${minute}${second}`;
         return color;
     }
 
@@ -130,7 +127,8 @@ export default function Room() {
             color: getColorByCurrentTime(),
             fontSize: 32,
         };
-        // save memo when key down enter
+
+        // save memos
         const listener = function (e) {
             newMemo.text = e.target.value;
             if (newMemo.text.length > 0) {
@@ -140,26 +138,18 @@ export default function Room() {
             }
             document.body.removeChild(e.target);
         };
-
+        textarea.addEventListener('blur', listener);
         textarea.addEventListener('keydown', function (e) {
             if (e.keyCode == 13) {
                 e.target.removeEventListener('blur', listener);
-                newMemo.text = e.target.value;
-                if (newMemo.text.length > 0) {
-                    printMemo(newMemo);
-                    saveMemo(newMemo);
-                    socket.emit('order', url, newMemo);
-                }
-                document.body.removeChild(e.target);
+                listener(e);
             }
         });
-        textarea.addEventListener('blur', listener);
     }
 
     return (
         <>
             <div id='room' className={styles.room} onClick={handleRoomTouch} />
-
         </>
     )
 }

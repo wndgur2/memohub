@@ -1,6 +1,6 @@
 "use client"
 import { getRandomURL } from "@/util/controller";
-import Loader from "@/util/loader";
+import Loader from "@/components/Loader";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react"
 
