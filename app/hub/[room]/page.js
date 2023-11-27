@@ -12,7 +12,7 @@ export default function Rooms() {
     const [searchUrl, setSearchUrl] = useState('');
     const [currentUrl, setCurrentUrl] = useState('');
     const [alert, setAlert] = useState(false);
-    const [test, setTest] = useState("TEST");
+    const [isWebView, setIsWebView] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
@@ -22,7 +22,10 @@ export default function Rooms() {
             let url = decodeURIComponent(data.query.url);
             setUrlRecommand(url);
         });
+
         initKakao(currentUrl);
+
+        setIsWebView(getIsWebView());
     }, []);
 
     useEffect(()=>{
@@ -31,6 +34,19 @@ export default function Rooms() {
             setAlert(false);
         },2000);
     }, [alert]);
+
+    function getIsWebView(){
+        const navigator = window.navigator;
+        const userAgent = navigator.userAgent;
+        const normalizedUserAgent = userAgent.toLowerCase();
+        const standalone = navigator.standalone;
+
+        const isIos = /ip(ad|hone|od)/.test(normalizedUserAgent) || navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1;
+        const isAndroid = /android/.test(normalizedUserAgent);
+        const isSafari = /safari/.test(normalizedUserAgent);
+        const isWebview = (isAndroid && /; wv\)/.test(normalizedUserAgent)) || (isIos && !standalone && !isSafari);
+        return isWebview;
+    }
 
     function explore(e) {
         e.preventDefault();
@@ -49,7 +65,6 @@ export default function Rooms() {
     }
 
     function shareBtnHandler(e) {
-        setTest(window.navigator.userAgent.toLowerCase());
         navigator.share({
             title: 'memoHub',
             text: 'myHub',
@@ -88,9 +103,13 @@ export default function Rooms() {
                     <div className={styles.shareWrapper + ' ' + styles.share}>
                         <img onClick={shareBtnHandler} src="/images/shares/share2.svg" alt="공유 보내기 버튼" width="29px" height="29px" />
                     </div>
-                    <div className={styles.shareWrapper + ' ' + styles.share}>
-                        <img onClick={copyBtnHandler} src="/images/shares/copy.svg" alt="공유 보내기 버튼" width="32px" height="32px" />
-                    </div>
+                    {
+                        isWebView?
+                        <></>:
+                        <div className={styles.shareWrapper + ' ' + styles.share}>
+                            <img onClick={copyBtnHandler} src="/images/shares/copy.svg" alt="공유 보내기 버튼" width="32px" height="32px" />
+                        </div>
+                    }
                     <div className={styles.shareWrapper + ' ' + styles.share} style={{boxShadow:"none"}}>
                         <img id='kakaotalk-sharing-btn' src="/images/shares/kakao_round.png" alt="카카오톡 공유 보내기 버튼" width="42px" height="42px" />
                     </div>
@@ -117,13 +136,6 @@ export default function Rooms() {
                         </p>
                     </div>:<></>
                 }
-
-                <span style={{
-                    position: 'absolute',
-                    top: '0',
-                    left: '0',
-                    color: 'white',
-                }}>{test}</span>
 
                 <Frontground />
             </div>
