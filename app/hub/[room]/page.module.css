@@ -32,12 +32,16 @@
     color: white;
     font-size: 32px;
     font-weight: bold;
-    text-shadow: 1px 1px 1vw black;
+    text-shadow: 1px 1px 1vw rgba(0, 0, 0, 1);
 }
 
 .toggleShare{
     position: fixed;
     display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
     right: 5vw;
     top: 2vh;
 }
@@ -49,9 +53,9 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 8px;
+    gap: 16px;
     right: 5vw;
-    top: calc(2vh + 52px);
+    top: calc(2vh + 58px);
     pointer-events: none;
 }
 
@@ -69,12 +73,12 @@
     justify-content: center;
     align-items: center;
     margin: 0px;
-    width: 44px;
-    height: 44px;
+    width: 42px;
+    height: 42px;
 
     border-radius: 32px;
     background-color: #EEE;
-    box-shadow: 1px 1px 2vw 2px rgba(0, 0, 0, 0.25);
+    box-shadow: 1px 1px 2vw 2px rgba(0, 0, 0, 0.5);
 }
 
 .searchBarWrapper{
