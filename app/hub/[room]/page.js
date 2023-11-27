@@ -11,6 +11,7 @@ export default function Rooms() {
     const [urlRecommand, setUrlRecommand] = useState('');
     const [searchUrl, setSearchUrl] = useState('');
     const [currentUrl, setCurrentUrl] = useState('');
+    const [alert, setAlert] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
@@ -23,6 +24,13 @@ export default function Rooms() {
         initKakao(currentUrl);
     }, []);
 
+    useEffect(()=>{
+        if(!alert) return;
+        setTimeout(()=>{
+            setAlert(false);
+        },2000);
+    }, [alert]);
+
     function explore(e) {
         e.preventDefault();
         let newUrl;
@@ -33,12 +41,9 @@ export default function Rooms() {
         else
             newUrl = encodeURI(searchUrl.toLowerCase());
         router.push(`/hub/${newUrl}`);
-
-        console.log(newUrl);
     }
 
     function handleUrlChange(e) {
-        // console.log(searchUrl);
         setSearchUrl(e.target.value);
     }
     function shareBtnHandler(e) {
@@ -50,12 +55,10 @@ export default function Rooms() {
     }
     function copyBtnHandler(e){
         navigator.clipboard.writeText(decodeURIComponent(window.location.href));
-
+        setAlert(true);
     }
 
     function dropShares(e){
-        console.log("drop");
-
         const shares = document.getElementsByClassName(styles.share);
         for(let i=0; i<shares.length; i++){
             shares[i].classList.toggle(styles.drop);
@@ -101,6 +104,15 @@ export default function Rooms() {
                         </div>
                     </form>
                 </div>
+
+                {
+                    alert?
+                    <div className={styles.alertWrapper}>
+                        <p className={styles.alert}>
+                            링크 복사 완료  ;)
+                        </p>
+                    </div>:<></>
+                }
 
                 <Frontground />
             </div>

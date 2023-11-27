@@ -95,6 +95,17 @@ export default function Room() {
         return color;
     }
 
+    function playPencilSound(length) {
+        const audio = new Audio('/audio/pencil.wav');
+        audio.onloadeddata = () => {
+            const playTime = length * 200;
+            audio.volume = 0.75;
+            audio.currentTime = parseInt((audio.duration - playTime/1000) * Math.random());
+            audio.play();
+            setTimeout(() => { audio.pause(); }, playTime);
+        }
+    }
+
     function handleRoomTouch(e) {
         let x = parseInt(e.clientX), y = parseInt(e.clientY);
         if (x > width - 60) x = width - 60;
@@ -134,6 +145,7 @@ export default function Room() {
         const listener = function (e) {
             newMemo.text = e.target.value;
             if (newMemo.text.length > 0) {
+                playPencilSound(newMemo.text.length);
                 printMemo(newMemo);
                 saveMemo(newMemo);
                 socket.emit('order', url, newMemo);
