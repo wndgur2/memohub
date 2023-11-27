@@ -145,7 +145,7 @@ export default function Room() {
             x,
             y,
             color: getColorByCurrentTime(),
-            fontSize,
+            fontSize: ()=>fontSize,
         };
 
         // save memos
