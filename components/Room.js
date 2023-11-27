@@ -13,6 +13,7 @@ export default function Room() {
     const [fontSize, setFontSize] = useState(24);
     const [touchedX, setTouchedX] = useState(0);
     const [touchedY, setTouchedY] = useState(0);
+    const [isCreating, setIsCreating] = useState(false);
     const newMemoRef = useRef(null);
 
     useEffect(() => {
@@ -110,6 +111,8 @@ export default function Room() {
     }
 
     function createTextArea(x, y){
+        if (isCreating) return;
+        setIsCreating(true);
         // create textarea at x,y
         let textarea = document.createElement('textarea');
         newMemoRef.current = textarea;
@@ -154,6 +157,7 @@ export default function Room() {
                 socket.emit('order', url, newMemo);
             }
             document.body.removeChild(e.target);
+            setIsCreating(false);
         };
         textarea.addEventListener('blur', listener);
         textarea.addEventListener('keydown', function (e) {
