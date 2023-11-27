@@ -1,7 +1,7 @@
 "use client"
 import Room from '@/components/Room';
 import styles from './page.module.css'
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { getRandomURL } from '@/util/controller';
 import { useRouter } from 'next/navigation';
 import Frontground from '@/components/Frontground';
@@ -13,6 +13,7 @@ export default function Rooms() {
     const [currentUrl, setCurrentUrl] = useState('');
     const [alert, setAlert] = useState(false);
     const [isWebView, setIsWebView] = useState(false);
+    const container = useRef();
     const router = useRouter();
 
     useEffect(() => {
@@ -26,6 +27,14 @@ export default function Rooms() {
         initKakao(currentUrl);
 
         setIsWebView(getIsWebView());
+
+        // fullscreen
+        const containerElement = container.current;
+        const fullScreenRequest = containerElement.requestFullscreen || containerElement.webkitRequestFullscreen || containerElement.msRequestFullscreen;
+        if (fullScreenRequest)
+            fullScreenRequest.call(containerElement).catch(err => {
+                console.log("fullscreen error");
+            });
     }, []);
 
     useEffect(()=>{
@@ -88,7 +97,7 @@ export default function Rooms() {
 
     return (
         <div>
-            <div className={styles.container}>
+            <div className={styles.container} ref={container}>
 
                 <Room />
                 <div className={styles.currentUrlWrapper}>
