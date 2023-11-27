@@ -13,7 +13,7 @@ export default function Loader() {
             }
         }>
             <img src="https://cdn.shopify.com/s/files/1/0344/6469/files/cat-gif-loop-maru_grande.gif?v=1523984148" alt="loading" />
-            <span style={{color:"white"}}>메모 꺼내는중...</span>
+            <p style={{color:"white"}}>메모 꺼내는중...</p>
         </div>
     );
 }

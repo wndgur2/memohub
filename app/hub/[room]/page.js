@@ -12,6 +12,7 @@ export default function Rooms() {
     const [searchUrl, setSearchUrl] = useState('');
     const [currentUrl, setCurrentUrl] = useState('');
     const [alert, setAlert] = useState(false);
+    const [test, setTest] = useState("TEST");
     const router = useRouter();
 
     useEffect(() => {
@@ -46,13 +47,16 @@ export default function Rooms() {
     function handleUrlChange(e) {
         setSearchUrl(e.target.value);
     }
+
     function shareBtnHandler(e) {
+        setTest(window.navigator.userAgent.toLowerCase());
         navigator.share({
             title: 'memoHub',
             text: 'myHub',
             url: window.location.href,
         });
     }
+
     function copyBtnHandler(e){
         navigator.clipboard.writeText(decodeURIComponent(window.location.href));
         setAlert(true);
@@ -113,6 +117,13 @@ export default function Rooms() {
                         </p>
                     </div>:<></>
                 }
+
+                <span style={{
+                    position: 'absolute',
+                    top: '0',
+                    left: '0',
+                    color: 'white',
+                }}>{test}</span>
 
                 <Frontground />
             </div>
