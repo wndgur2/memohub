@@ -41,9 +41,9 @@ export default function Rooms() {
     }
     function shareBtnHandler(e) {
         navigator.share({
-            title: 'asd',
-            text: "Hello World",
-            url: "https://developer.mozilla.org",
+            title: 'memoHub',
+            text: 'myHub',
+            url: window.location.href,
         });
     }
     function copyBtnHandler(e){
