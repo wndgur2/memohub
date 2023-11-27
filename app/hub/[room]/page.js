@@ -6,7 +6,6 @@ import { getRandomURL } from '@/util/controller';
 import { useRouter } from 'next/navigation';
 import Frontground from '@/components/Frontground';
 import initKakao from '@/util/kakaoShare';
-import socket from '@/util/socket-client';
 
 export default function Rooms() {
     const [urlRecommand, setUrlRecommand] = useState('');
@@ -32,7 +31,7 @@ export default function Rooms() {
         else
             newUrl = encodeURI(searchUrl.toLowerCase());
         router.push(`/hub/${newUrl}`);
-
+        
         console.log(newUrl);
     }
 
