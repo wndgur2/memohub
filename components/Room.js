@@ -20,7 +20,7 @@ export default function Room() {
         const url = decodeURIComponent(window.location.pathname.split('/')[2]);
         socket.emit('enter',url);
         socket.on('userOrder', (data) => {
-            printMemo(data);
+            setMemo([...memo, data]);
         });
 
         setUrl(url);
@@ -34,6 +34,7 @@ export default function Room() {
             setWidth(window.innerWidth);
             setHeight(window.innerHeight);
         });
+
         return()=>{
             socket.emit('leave',url);
             socket.disconnect();
@@ -79,22 +80,26 @@ export default function Room() {
 
     function getColorByCurrentTime() {
         const date = new Date();
-        const currentHour = date.getHours();
-        let hour, minute, second, color;
-        if(currentHour>=6 && currentHour<=17){
-            hour = parseInt(date.getHours() * 128 / 24 + 127);
-            minute = parseInt(date.getMinutes() * 128 / 60 + 127);
-            second = parseInt(date.getSeconds() * 128 / 60 + 127);
-        } else{
-            hour = parseInt(date.getHours() * 128 / 24);
-            minute = parseInt(date.getMinutes() * 128 / 60);
-            second = parseInt(date.getSeconds() * 128 / 60);
-        }
-        [hour, minute, second] = [hour, minute, second].map((value) => {
-            if (value <= 15) return '0' + value.toString(16);
-            else return value.toString(16);
-        });
-        color = `#${hour}${minute}${second}`;
+        // const currentHour = date.getHours();
+        // let hour, minute, second, color;
+        // if(currentHour>=6 && currentHour<=17){
+        //     hour = parseInt(date.getHours()/24 * 96 + 159);
+        //     minute = parseInt(date.getMinutes()/60 * 96 + 159);
+        //     second = parseInt(date.getSeconds()/60 * 96 + 159);
+        // } else{
+        //     hour = parseInt(date.getHours()/24 * 96);
+        //     minute = parseInt(date.getMinutes()/60 * 96);
+        //     second = parseInt(date.getSeconds()/60 * 96);
+        // }
+        // [hour, minute, second] = [hour, minute, second].map((value) => {
+        //     if (value <= 15) return '0' + value.toString(16);
+        //     else return value.toString(16);
+        // });
+        // color = `#${hour}${minute}${second}`;
+
+
+        const sum = date.getHours() + date.getMinutes() + date.getSeconds();
+        const color = `#${parseInt(sum/144 * 255).toString(16)}${parseInt(sum/144 * 255).toString(16)}${parseInt(sum/144 * 255).toString(16)}`;
         return color;
     }
 

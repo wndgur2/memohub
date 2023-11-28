@@ -71,7 +71,6 @@ export default function Rooms() {
 
     function handleUrlChange(e) {
         if(e.target.value.length > 10) return;
-        console.log(e.target.value.length);
         setSearchUrl(e.target.value);
     }
 
