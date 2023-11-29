@@ -114,25 +114,22 @@ export default function Rooms() {
                 </div>
 
                 <div className={styles.shares}>
-                    {
-                        platform[1]?
-                        <div>
-                            <div className={styles.shareWrapper + ' ' + styles.hidden} style={{boxShadow:"none"}}>
-                                <img id='kakaotalk-sharing-btn' src="/images/shares/kakao_round.png" alt="카카오톡 공유 보내기 버튼" width="42px" height="42px" />
-                            </div>
-                            {
-                                !platform[0]?
-                                <div className={styles.shareWrapper + ' ' + styles.hidden}>
-                                    <img onClick={shareBtnHandler} src="/images/shares/share2.svg" alt="공유 보내기 버튼" width="29px" height="29px" />
-                                </div>
-                                :<></>
-                            }
-                        </div>
-                        :<></>
-                    }
                     <div className={styles.shareWrapper + ' ' + styles.hidden}>
                         <img onClick={copyBtnHandler} src="/images/shares/copy.svg" alt="링크 복사 버튼" width="32px" height="32px" />
                     </div>
+                    {
+                        platform[1] && !platform[0]?
+                            <div className={styles.shareWrapper + ' ' + styles.hidden}>
+                                <img onClick={shareBtnHandler} src="/images/shares/share2.svg" alt="공유 보내기 버튼" width="29px" height="29px" />
+                            </div>
+                            :<></>
+                    }{
+                        platform[1]?
+                            <div className={styles.shareWrapper + ' ' + styles.hidden} style={{boxShadow:"none"}}>
+                                <img id='kakaotalk-sharing-btn' src="/images/shares/kakao_round.png" alt="카카오톡 공유 보내기 버튼" width="42px" height="42px" />
+                            </div>
+                        :<></>
+                    }
                 </div>
 
                 <div className={styles.searchBarWrapper}>
