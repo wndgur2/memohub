@@ -25,9 +25,6 @@ export default function Rooms() {
         });
         const curPlatform = getPlatform();
         setPlatform(curPlatform);
-        if(curPlatform[1])
-            initKakao(currentUrl);
-
 
         // fullscreen
         // const containerElement = container.current;
@@ -44,6 +41,11 @@ export default function Rooms() {
             setAlert(false);
         },2000);
     }, [alert]);
+
+    useEffect(()=>{
+        if(!platform[1]) return;
+        initKakao(urlRecommand);
+    }, [platform]);
 
     function getPlatform(){
         const navigator = window.navigator;
@@ -118,11 +120,13 @@ export default function Rooms() {
                             <div className={styles.shareWrapper + ' ' + styles.hidden} style={{boxShadow:"none"}}>
                                 <img id='kakaotalk-sharing-btn' src="/images/shares/kakao_round.png" alt="카카오톡 공유 보내기 버튼" width="42px" height="42px" />
                             </div>
-                            !platform[0]?
-                            <div className={styles.shareWrapper + ' ' + styles.hidden}>
-                                <img onClick={shareBtnHandler} src="/images/shares/share2.svg" alt="공유 보내기 버튼" width="29px" height="29px" />
-                            </div>
-                            :<></>
+                            {
+                                !platform[0]?
+                                <div className={styles.shareWrapper + ' ' + styles.hidden}>
+                                    <img onClick={shareBtnHandler} src="/images/shares/share2.svg" alt="공유 보내기 버튼" width="29px" height="29px" />
+                                </div>
+                                :<></>
+                            }
                         </div>
                         :<></>
                     }
