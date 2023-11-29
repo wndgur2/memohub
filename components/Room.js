@@ -80,24 +80,27 @@ export default function Room() {
 
     function getColorByCurrentTime() {
         const date = new Date();
-        // const currentHour = date.getHours();
-        // let hour, minute, second, color;
-        // if(currentHour>=6 && currentHour<=17){
-        //     hour = parseInt(date.getHours()/24 * 96 + 159);
-        //     minute = parseInt(date.getMinutes()/60 * 96 + 159);
-        //     second = parseInt(date.getSeconds()/60 * 96 + 159);
-        // } else{
-        //     hour = parseInt(date.getHours()/24 * 96);
-        //     minute = parseInt(date.getMinutes()/60 * 96);
-        //     second = parseInt(date.getSeconds()/60 * 96);
-        // }
-        // [hour, minute, second] = [hour, minute, second].map((value) => {
-        //     if (value <= 15) return '0' + value.toString(16);
-        //     else return value.toString(16);
-        // });
-        // color = `#${hour}${minute}${second}`;
+        const currentHour = date.getHours();
+        let hour, minute, second, color;
+        if(currentHour>=6 && currentHour<=17){
+            hour = parseInt(date.getHours()/24 * 96 + 159);
+            minute = parseInt(date.getMinutes()/60 * 96 + 159);
+            second = parseInt(date.getSeconds()/60 * 96 + 159);
+        } else{
+            hour = parseInt(date.getHours()/24 * 96);
+            minute = parseInt(date.getMinutes()/60 * 96);
+            second = parseInt(date.getSeconds()/60 * 96);
+        }
+        [hour, minute, second] = [hour, minute, second].map((value) => {
+            if (value <= 15) return '0' + value.toString(16);
+            else return value.toString(16);
+        });
+        color = `#${hour}${minute}${second}`;
 
+        return color;
+    }
 
+    function getGreyColorByCurrentTime() {
         const sum = date.getHours() + date.getMinutes() + date.getSeconds();
         const color = `#${parseInt(sum/144 * 255).toString(16)}${parseInt(sum/144 * 255).toString(16)}${parseInt(sum/144 * 255).toString(16)}`;
         return color;

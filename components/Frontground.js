@@ -20,9 +20,9 @@ export default function Frontground() {
     function getRandomSnow(){
         const x = Math.random() * window.innerWidth;
         const y = Math.random() * window.innerHeight;
-        const size = Math.random() * 5 + 5;
-        const speed = Math.random() * 1 + 0.5;
-        const opacity = Math.random() * 0.5 + 0.5;
+        const size = Math.random() * 3 + 3;
+        const speed = Math.random() * 1 + 1;
+        const opacity = Math.random() * 0.3 + 0.7;
 
         return {x, y, size, speed, opacity};
     }
@@ -32,7 +32,7 @@ export default function Frontground() {
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
         const snows = [];
-        const snowCount = 64;
+        const snowCount = 32;
         const snowSpeed = 0.5;
 
         for(let i=0; i<snowCount; i++)
