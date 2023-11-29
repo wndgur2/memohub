@@ -50,14 +50,10 @@ export default function Room() {
     function printMemo(memo) {
         if (!memo.text) return;
 
-        const skewDeg = -4;
-
         let div = document.createElement('div');
         div.className = styles.content;
         div.style.left = memo.x + 'px';
         div.style.top = memo.y + 'px';
-
-        div.style.transform = `skew(${skewDeg}deg)`;
 
         div.style.fontSize = memo.fontSize + 'px';
         div.style.fontFamily = 'sans-serif';
@@ -119,6 +115,7 @@ export default function Room() {
 
     function createTextArea(x, y){
         setFontSize(24);
+        const textAreaWidth = 40;
         // create textarea at x,y
         let textarea = document.createElement('textarea');
         newMemoRef.current = textarea;
@@ -126,18 +123,20 @@ export default function Room() {
         textarea.className = styles.content;
         textarea.id = 'newMemo';
         textarea.style.position = 'absolute';
-        textarea.style.left = x + 'px';
+        textarea.style.left = x + textAreaWidth < width ? x + 'px' : width - textAreaWidth + 'px';
         textarea.style.top = y + 'px';
-        textarea.style.width = '40px';
+        textarea.style.width = textAreaWidth + 'px';
         textarea.style.height = fontSize + 6 + 'px';
         textarea.style.fontSize = fontSize+'px';
 
         textarea.oninput = function () {
             const textWidth = getTextWidth(textarea.value, fontSize + 'px sans-serif');
             textarea.style.width = textWidth + 24 + 'px';
-            if (textWidth + 36 + x > width) {
-                textarea.style.left = width - textWidth - 24 + 'px';
-                x = width - textWidth - 24;
+            textAreaValidation(x, textWidth);
+            if (x + textWidth + 64 > width) {
+                textarea.style.left = width - textWidth - 64 + 'px';
+                x = width - textWidth - 64;
+                x = x < 0 ? 0 : x;
             }
         };
 
