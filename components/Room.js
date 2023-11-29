@@ -132,7 +132,6 @@ export default function Room() {
         textarea.oninput = function () {
             const textWidth = getTextWidth(textarea.value, fontSize + 'px sans-serif');
             textarea.style.width = textWidth + 24 + 'px';
-            textAreaValidation(x, textWidth);
             if (x + textWidth + 64 > width) {
                 textarea.style.left = width - textWidth - 64 + 'px';
                 x = width - textWidth - 64;
