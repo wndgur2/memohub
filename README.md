@@ -1,7 +1,7 @@
 <h1 align="center">
   Memohub
 </h1>
-<h3 align="cetner">
+<h3 align="center">
   Anyone can leave memos everywhere!  
 </h3>
 <p align="center">
