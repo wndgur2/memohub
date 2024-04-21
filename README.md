@@ -2,7 +2,7 @@
   Memohub
 </h1>
 <h3 align="center">
-  Anyone can leave memos everywhere!  
+  Memo by anyone at everywhere.
 </h3>
 <p align="center">
   https://memohub.vercel.app/
