@@ -1,3 +1,10 @@
+---
+date_started: 2023-11-23
+date_finished: 2023-11-29
+head_count: 2
+role: FE
+---
+
 # Memohub
 ### Memo by anyone at everywhere.
 ### https://memohub.vercel.app/
